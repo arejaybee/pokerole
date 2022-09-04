@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Pokerole Core Charactersheet</string>
+
+    <string name="trainer_card_name">Name</string>
+    <string name="trainer_card_age">Age</string>
+    <string name="trainer_card_hp">HP</string>
+    <string name="trainer_card_will">Will</string>
+    <string name="trainer_card_experience">Experience</string>
+    <string name="trainer_card_money">Money</string>
+    <string name="trainer_card_concept">Concept</string>
+
+    <string name="nav_trainer_card">Trainer Card</string>
+    <string name="nav_trainer_skills">Skills</string>
+    <string name="nav_trainer_bag">Bag</string>
+
+</resources>
