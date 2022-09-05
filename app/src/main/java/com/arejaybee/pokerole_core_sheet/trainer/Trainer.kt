@@ -5,6 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.arejaybee.pokerole_core_sheet.pokemon.Pokemon
 import com.google.gson.Gson
+import com.google.gson.annotations.Expose
 
 
 class Trainer(@Transient private  var context: Context) : BagUpdateListener {
@@ -18,6 +19,7 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener {
             val trainer = Gson().fromJson(json, Trainer::class.java)
             trainer.context = context
             trainer.bag.listener = trainer
+            trainer.bag.loadFromJson()
             return trainer
         }
     }
@@ -274,6 +276,7 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener {
             saveData()
         }
 
+    @Expose
     var bag = Bag(this)
         set(value) {
             field = value

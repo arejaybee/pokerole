@@ -1,8 +1,10 @@
 package com.arejaybee.pokerole_core_sheet.views
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -39,20 +41,22 @@ val roundedMod = Modifier.clip(RoundedCornerShape(25, 25, 25, 25))
 @Composable
 fun MainContentView(newTrainer: Trainer) {
     trainer = newTrainer
-    Column(Modifier.padding(10.dp)) {
-        Row(Modifier.weight(0.8f)) {
-            NavButtons(modifier = Modifier.weight(0.15f))
-            Spacer(modifier = Modifier.padding(horizontal = 10.dp))
-            val pageModifier = Modifier.weight(0.85f)
-            when (selectedPage) {
-                Page.TRAINER_CARD -> TrainerCard(modifier = pageModifier)
-                Page.SKILLS -> Text("")
-                Page.BAG -> Bag(modifier = pageModifier)
-                else -> Text("")
+    Box(Modifier.background(colorResource(id = R.color.background_primary))) {
+        Column(Modifier.padding(10.dp)) {
+            Row(Modifier.weight(0.8f)) {
+                NavButtons(modifier = Modifier.weight(0.15f))
+                Spacer(modifier = Modifier.padding(horizontal = 10.dp))
+                val pageModifier = Modifier.weight(0.85f)
+                when (selectedPage) {
+                    Page.TRAINER_CARD -> TrainerCard(modifier = pageModifier)
+                    Page.SKILLS -> Text("")
+                    Page.BAG -> Bag(modifier = pageModifier)
+                    else -> Text("")
+                }
             }
+            Spacer(Modifier.padding(vertical = 10.dp))
+            PokemonGrid(modifier = Modifier.weight(0.2f))
         }
-        Spacer(Modifier.padding(vertical = 10.dp))
-        PokemonGrid(modifier = Modifier.weight(0.2f))
     }
 }
 
@@ -62,19 +66,19 @@ fun NavButtons(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight(),
-        verticalArrangement = Arrangement.SpaceEvenly
+        verticalArrangement = Arrangement.Top
     ) {
-        Button(modifier = roundedMod.fillMaxWidth(), onClick = {
+       ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPage = Page.TRAINER_CARD
         }) {
             Text(stringResource(id = R.string.nav_trainer_card), textAlign = TextAlign.Center)
         }
-        Button(modifier = roundedMod.fillMaxWidth(), onClick = {
+        ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPage = Page.SKILLS
         }) {
             Text(stringResource(id = R.string.nav_trainer_skills), textAlign = TextAlign.Center)
         }
-        Button(modifier = roundedMod.fillMaxWidth(), onClick = {
+        ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPage = Page.BAG
         }) {
             Text(stringResource(id = R.string.nav_trainer_bag), textAlign = TextAlign.Center)

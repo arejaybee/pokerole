@@ -1,9 +1,7 @@
 package com.arejaybee.pokerole_core_sheet.views.trainer
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -12,14 +10,18 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.LocalMinimumTouchTargetEnforcement
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -29,15 +31,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.arejaybee.pokerole_core_sheet.R
-import com.arejaybee.pokerole_core_sheet.Utility
 import com.arejaybee.pokerole_core_sheet.trainer.POTION_ENUM
 import com.arejaybee.pokerole_core_sheet.trainer.Potion
+import com.arejaybee.pokerole_core_sheet.views.ActionButton
 import com.arejaybee.pokerole_core_sheet.views.trainer
 
 @Composable
@@ -46,50 +48,81 @@ fun Bag(modifier: Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight(),
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Row(modifier = Modifier.weight(0.8f)) {
             Column(modifier = Modifier.weight(1f)) {
                 PotionPocket(Modifier.fillMaxSize())
             }
             Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween) {
-                PocketButton(
+                PocketActionButton(
                     modifier = Modifier
                         .weight(1f)
                         .padding(10.dp)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    true
                 ) {
-                    Text(text = "Main Pocket")
+                    Text(text = stringResource(id = R.string.bag_main_pocket))
                 }
-                PocketButton(
+                PocketActionButton(
                         modifier = Modifier
                             .weight(1f)
                             .padding(10.dp)
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+                    false
                 ) {
-                Text(text = "Small Pocket")
+                Text(text = stringResource(id = R.string.bag_small_pocket))
             }
             }
         }
         Row(modifier = Modifier
             .weight(0.2f)
-            .padding(horizontal = 30.dp)) {
+            .padding(horizontal = 30.dp),
+            verticalAlignment = Alignment.CenterVertically) {
             BadgeCase()
         }
     }
 }
 
 @Composable
-fun PocketButton(modifier: Modifier, content: @Composable RowScope.() -> Unit) {
+fun PocketActionButton(modifier: Modifier, mainBag: Boolean, content: @Composable RowScope.() -> Unit) {
     val openDialog = remember { mutableStateOf(false) }
     if(openDialog.value) {
         Dialog(onDismissRequest = {openDialog.value = false}) {
-            Box(modifier = Modifier
-                .size(Utility.getDW(2f), Utility.getDH(0.1f))
-                .background(Color.White))
+            Column(
+                modifier = Modifier
+                .background(Color.White)
+            ) {
+                val title = if (mainBag) R.string.bag_main_pocket else R.string.bag_small_pocket
+                Text(modifier = Modifier.fillMaxWidth().padding(10.dp), text = stringResource(id = title), textAlign = TextAlign.Center)
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    Modifier
+                        .padding(20.dp)
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    val list = if (mainBag) trainer.bag.mainItems else trainer.bag.battleItems
+                    itemsIndexed(list) { index, item ->
+                        var inputText by remember { mutableStateOf(item) }
+                        TextField(
+                            value = inputText,
+                            modifier = Modifier.padding(10.dp),
+                            onValueChange = {
+                                if(mainBag) trainer.bag.mainItems[index] = it else trainer.bag.battleItems[index] = it
+                                trainer.saveBagUpdates()
+                                inputText = it
+                            }
+                        )
+                        Spacer(modifier = Modifier.padding(10.dp))
+                    }
+                    list.forEachIndexed { index, item ->
+                    }
+                }
+            }
         }
     }
-    Button(
+    ActionButton(
         modifier = modifier,
         onClick = {
             openDialog.value = !openDialog.value
@@ -110,13 +143,13 @@ fun PotionPocket(modifier: Modifier) {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
-    val potionType = Potion.getPotionByType(potionName)
-    var potionCount by remember { mutableStateOf( trainer.bag.getPotionList(potionName).size.toString()) }
-    var buttonPress by remember { mutableStateOf(true)}
-    var potionUses by remember { mutableStateOf(trainer.bag.getPotionList(potionName).firstOrNull()?.uses?:0) }
+    val potionType = Potion.getPotionByType(trainer.bag, potionName)
+    var potionCount by remember { mutableStateOf( trainer.bag.getPotionList(potionName)?.size?.toString()?:"0") }
+    var ActionButtonPress by remember { mutableStateOf(true)}
+    var potionUses by remember { mutableStateOf(trainer.bag.getPotionList(potionName)?.firstOrNull()?.uses?:0) }
     Row(modifier = modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically)
     {
-        Button(modifier = Modifier.weight(0.25f), onClick = {
+        ActionButton(modifier = Modifier.weight(0.25f), onClick = {
             val potion =  trainer.bag.getPotionList(potionName).firstOrNull()
             potion?.let {
                 potion.uses--
@@ -128,7 +161,7 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
             }
             potionUses = if (trainer.bag.getPotionList(potionName).isEmpty()) 0
                         else trainer.bag.getPotionList(potionName).firstOrNull()?.uses?:potionType.maxUses
-            buttonPress = !buttonPress
+            ActionButtonPress = !ActionButtonPress
         }) {
             Text(textAlign = TextAlign.Center, text = potionName.name.replace("_", " "))
         }
@@ -197,8 +230,7 @@ fun BadgeCase() {
     ) {
         Text(text = "Badges: ")
        for (i in 0 until 8) {
-           Image(painter = painterResource(id = R.drawable.ic_pokeball), contentDescription = "Player Badge")
-
+           Icon(Icons.Rounded.Lock, contentDescription = "Player Badge")
         }
     }
 }

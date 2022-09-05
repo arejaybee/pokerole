@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
@@ -28,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arejaybee.pokerole_core_sheet.R
 import com.arejaybee.pokerole_core_sheet.trainer.Nature
+import com.arejaybee.pokerole_core_sheet.views.ActionButton
 import com.arejaybee.pokerole_core_sheet.views.roundedMod
 import com.arejaybee.pokerole_core_sheet.views.trainer
 
@@ -58,7 +58,7 @@ fun TrainerCard(modifier: Modifier) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(modifier = Modifier.padding(horizontal = 50.dp), text = "")
-            Button(
+            ActionButton(
                 modifier = roundedMod
                     .weight(1f)
                     .fillMaxHeight(),

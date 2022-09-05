@@ -3,24 +3,32 @@ package com.arejaybee.pokerole_core_sheet.trainer
 import com.arejaybee.pokerole_core_sheet.trainer.POTION_ENUM.Hyper_Potion
 import com.arejaybee.pokerole_core_sheet.trainer.POTION_ENUM.Super_Potion
 
-class Potion(var uses: Int = 2) {
+class Potion(@Transient var listener: PotionListener, uses: Int = 2) {
+    var uses: Int = uses
+    set(value) {
+        field = value
+        listener.savePotion()
+    }
     val maxUses: Int = uses
+    interface PotionListener {
+        fun savePotion()
+    }
 
     companion object {
-        fun getPotion() : Potion {
-            return Potion()
+        private fun getPotion(listener: PotionListener) : Potion {
+            return Potion(listener)
         }
-        fun getSuperPotion() : Potion {
-            return Potion( 4)
+        private fun getSuperPotion(listener: PotionListener) : Potion {
+            return Potion( listener, 4)
         }
-        fun getHyperPotion() : Potion {
-            return Potion(14)
+        private fun getHyperPotion(listener: PotionListener) : Potion {
+            return Potion(listener,14)
         }
-        fun getPotionByType(type: POTION_ENUM) : Potion {
+        fun getPotionByType(listener: PotionListener, type: POTION_ENUM) : Potion {
             return when(type) {
-                POTION_ENUM.Potion -> getPotion()
-                Super_Potion -> getSuperPotion()
-                Hyper_Potion -> getHyperPotion()
+                POTION_ENUM.Potion -> getPotion(listener)
+                Super_Potion -> getSuperPotion(listener)
+                Hyper_Potion -> getHyperPotion(listener)
             }
         }
     }
