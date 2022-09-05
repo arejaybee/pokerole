@@ -7,16 +7,17 @@ import com.arejaybee.pokerole_core_sheet.pokemon.Pokemon
 import com.google.gson.Gson
 
 
-class Trainer(@Transient private  var context: Context) {
+class Trainer(@Transient private  var context: Context) : BagUpdateListener {
 
     companion object {
-        val SHARED_PREFS = "shared_pref"
+        const val SHARED_PREFS = "shared_pref"
         fun loadData(context: Context): Trainer {
             val sharedPreferences: SharedPreferences =
                 context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
             val json = sharedPreferences.getString("myCharacter", "")
             val trainer = Gson().fromJson(json, Trainer::class.java)
             trainer.context = context
+            trainer.bag.listener = trainer
             return trainer
         }
     }
@@ -273,9 +274,13 @@ class Trainer(@Transient private  var context: Context) {
             saveData()
         }
 
-    var bag = Bag()
+    var bag = Bag(this)
         set(value) {
             field = value
             saveData()
         }
+
+    override fun saveBagUpdates() {
+        saveData()
+    }
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arejaybee.pokerole_core_sheet.R
 import com.arejaybee.pokerole_core_sheet.trainer.Trainer
+import com.arejaybee.pokerole_core_sheet.views.trainer.Bag
 import com.arejaybee.pokerole_core_sheet.views.trainer.TrainerCard
 
 enum class Page { TRAINER_CARD, SKILLS, BAG, POKEMON }
@@ -33,8 +34,7 @@ lateinit var trainer: Trainer
 
 var selectedPage by mutableStateOf(Page.TRAINER_CARD)
 
-val roundedMod = Modifier.clip(RoundedCornerShape(45, 45, 45, 45))
-val bottomRoundedMod = Modifier.clip(RoundedCornerShape(25, 25, 25, 25))
+val roundedMod = Modifier.clip(RoundedCornerShape(25, 25, 25, 25))
 
 @Composable
 fun MainContentView(newTrainer: Trainer) {
@@ -43,10 +43,11 @@ fun MainContentView(newTrainer: Trainer) {
         Row(Modifier.weight(0.8f)) {
             NavButtons(modifier = Modifier.weight(0.15f))
             Spacer(modifier = Modifier.padding(horizontal = 10.dp))
+            val pageModifier = Modifier.weight(0.85f)
             when (selectedPage) {
-                Page.TRAINER_CARD -> TrainerCard(modifier = Modifier.weight(0.85f))
+                Page.TRAINER_CARD -> TrainerCard(modifier = pageModifier)
                 Page.SKILLS -> Text("")
-                Page.BAG -> Text("")
+                Page.BAG -> Bag(modifier = pageModifier)
                 else -> Text("")
             }
         }
@@ -63,17 +64,17 @@ fun NavButtons(modifier: Modifier = Modifier) {
             .fillMaxHeight(),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Button(modifier = bottomRoundedMod.fillMaxWidth(), onClick = {
+        Button(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPage = Page.TRAINER_CARD
         }) {
             Text(stringResource(id = R.string.nav_trainer_card), textAlign = TextAlign.Center)
         }
-        Button(modifier = bottomRoundedMod.fillMaxWidth(), onClick = {
+        Button(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPage = Page.SKILLS
         }) {
             Text(stringResource(id = R.string.nav_trainer_skills), textAlign = TextAlign.Center)
         }
-        Button(modifier = bottomRoundedMod.fillMaxWidth(), onClick = {
+        Button(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPage = Page.BAG
         }) {
             Text(stringResource(id = R.string.nav_trainer_bag), textAlign = TextAlign.Center)

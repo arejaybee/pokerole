@@ -28,7 +28,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arejaybee.pokerole_core_sheet.R
 import com.arejaybee.pokerole_core_sheet.trainer.Nature
-import com.arejaybee.pokerole_core_sheet.views.bottomRoundedMod
 import com.arejaybee.pokerole_core_sheet.views.roundedMod
 import com.arejaybee.pokerole_core_sheet.views.trainer
 
@@ -81,7 +80,7 @@ fun EditablePlayerFields(modifier: Modifier) {
             var inputWill by remember { mutableStateOf(trainer.will.toString()) }
             var inputExp by remember { mutableStateOf(trainer.experience.toString()) }
             TextField(
-                modifier = bottomRoundedMod
+                modifier = roundedMod
                     .weight(1f)
                     .fillMaxWidth(),
                 value = inputHp,
@@ -98,7 +97,7 @@ fun EditablePlayerFields(modifier: Modifier) {
             )
             Spacer(modifier = Modifier.padding(horizontal = 5.dp))
             TextField(
-                modifier = bottomRoundedMod
+                modifier = roundedMod
                     .weight(1f)
                     .fillMaxWidth(),
                 value = inputWill,
@@ -115,7 +114,7 @@ fun EditablePlayerFields(modifier: Modifier) {
             )
             Spacer(modifier = Modifier.padding(horizontal = 5.dp))
             TextField(
-                modifier = bottomRoundedMod
+                modifier = roundedMod
                     .weight(1f)
                     .fillMaxWidth(),
                 value = inputExp,
@@ -133,7 +132,7 @@ fun EditablePlayerFields(modifier: Modifier) {
         }
         Spacer(modifier = Modifier.padding(10.dp))
         TextField(
-            modifier = bottomRoundedMod
+            modifier = roundedMod
                 .weight(1f)
                 .fillMaxWidth(),
             value = inputMoney,
