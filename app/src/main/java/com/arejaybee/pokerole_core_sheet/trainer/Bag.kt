@@ -8,7 +8,7 @@ import com.google.gson.annotations.Expose
 enum class POTION_ENUM {Potion, Super_Potion, Hyper_Potion}
 class Bag(@Transient var listener: BagUpdateListener) : PotionListener {
     val badges = mutableListOf<Badge>()
-    val battleItems = arrayListOf("","","","","")
+    val battleItems = arrayListOf("","","","")
     val mainItems = arrayListOf("", "", "", "", "", "", "", "")
     val mainItems2 = arrayListOf("", "", "", "", "", "", "", "")
     @Expose

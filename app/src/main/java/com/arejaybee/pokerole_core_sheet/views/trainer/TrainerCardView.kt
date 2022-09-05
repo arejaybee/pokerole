@@ -1,5 +1,6 @@
 package com.arejaybee.pokerole_core_sheet.views.trainer
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,9 +10,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -21,11 +24,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.arejaybee.pokerole_core_sheet.R
+import com.arejaybee.pokerole_core_sheet.R.string
 import com.arejaybee.pokerole_core_sheet.trainer.Nature
 import com.arejaybee.pokerole_core_sheet.views.ActionButton
 import com.arejaybee.pokerole_core_sheet.views.roundedMod
@@ -40,7 +46,7 @@ fun TrainerCard(modifier: Modifier) {
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Row(
-            modifier = Modifier.weight(0.6f),
+            modifier = Modifier.weight(0.7f),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             //left side of the card
@@ -52,19 +58,60 @@ fun TrainerCard(modifier: Modifier) {
         Spacer(modifier = Modifier.padding(10.dp))
         Row(
             Modifier
-                .weight(0.4f)
+                .weight(0.3f)
                 .fillMaxHeight()
                 .align(Alignment.CenterHorizontally),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(modifier = Modifier.padding(horizontal = 50.dp), text = "")
+            var openDialog by remember { mutableStateOf(false) }
+            val conceptSummary = trainer.concept.summary.ifEmpty { stringResource(id = string.trainer_card_concept) }
+            var conceptTitle by remember { mutableStateOf(conceptSummary) }
+            if (openDialog) {
+                Dialog(onDismissRequest = { openDialog = false }) {
+                    var conceptDetails by remember { mutableStateOf(trainer.concept.details) }
+                    LazyColumn(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .padding(20.dp)
+                    ) {
+                        item {
+                            TextField(
+                                value = conceptTitle,
+                                label = { Text(stringResource(id = R.string.trainer_card_concept_summary)) },
+                                onValueChange = {
+                                    trainer.concept.summary = it
+                                    trainer.saveData()
+                                    conceptTitle = it
+                                }
+                            )
+                        }
+                        item{
+                            Spacer(modifier = Modifier.padding(10.dp))
+                        }
+                        item {
+                            TextField(
+                                value = conceptDetails,
+                                label = { Text(stringResource(id = R.string.trainer_card_concept_details)) },
+                                onValueChange = {
+                                    trainer.concept.details = it
+                                    trainer.saveData()
+                                    conceptDetails = it
+                                }
+                            )
+                        }
+                    }
+                }
+            }
             ActionButton(
                 modifier = roundedMod
                     .weight(1f)
                     .fillMaxHeight(),
-                onClick = { },
+                onClick = {
+                    openDialog = true
+                },
             ) {
-                Text("Concept: ${trainer.concept.summary}")
+                Text(conceptTitle)
             }
             Text(modifier = Modifier.padding(horizontal = 50.dp), text = "")
         }
@@ -84,6 +131,7 @@ fun EditablePlayerFields(modifier: Modifier) {
                     .weight(1f)
                     .fillMaxWidth(),
                 value = inputHp,
+                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                 label = { Text(stringResource(id = R.string.trainer_card_hp)) },
                 onValueChange = {
                     try {
@@ -101,6 +149,7 @@ fun EditablePlayerFields(modifier: Modifier) {
                     .weight(1f)
                     .fillMaxWidth(),
                 value = inputWill,
+                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                 label = { Text(stringResource(id = R.string.trainer_card_will)) },
                 onValueChange = {
                     try {
@@ -118,6 +167,7 @@ fun EditablePlayerFields(modifier: Modifier) {
                     .weight(1f)
                     .fillMaxWidth(),
                 value = inputExp,
+                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                 label = { Text(stringResource(id = R.string.trainer_card_experience)) },
                 onValueChange = {
                     try {
@@ -206,6 +256,7 @@ fun NonEditablePlayerFields(modifier: Modifier) {
                     modifier = Modifier
                         .weight(1f),
                     value = inputAge,
+                    textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                     label = { Text(stringResource(id = R.string.trainer_card_age)) },
                     onValueChange = {
                         trainer.age = it

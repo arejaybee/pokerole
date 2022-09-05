@@ -13,11 +13,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Checkbox
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalMinimumTouchTargetEnforcement
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
@@ -168,8 +170,11 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
         TextField(
             modifier = Modifier
                 .weight(0.2f)
-                .padding(5.dp),
+                .padding(horizontal = 5.dp),
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            shape = CircleShape,
             value = potionCount,
+            singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             onValueChange = {
                 val count = it

@@ -24,7 +24,7 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener {
         }
     }
 
-    private fun saveData() {
+    fun saveData() {
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
         val editor = sharedPreferences.edit()
