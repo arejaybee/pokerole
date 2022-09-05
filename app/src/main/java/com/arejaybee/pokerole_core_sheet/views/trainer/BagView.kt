@@ -15,17 +15,14 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Checkbox
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
-import androidx.compose.material.LocalMinimumTouchTargetEnforcement
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.arejaybee.pokerole_core_sheet.R
+import com.arejaybee.pokerole_core_sheet.Utility.MyCheckBox
 import com.arejaybee.pokerole_core_sheet.trainer.POTION_ENUM
 import com.arejaybee.pokerole_core_sheet.trainer.Potion
 import com.arejaybee.pokerole_core_sheet.views.ActionButton
@@ -56,7 +54,11 @@ fun Bag(modifier: Modifier) {
             Column(modifier = Modifier.weight(1f)) {
                 PotionPocket(Modifier.fillMaxSize())
             }
-            Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween) {
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
                 PocketActionButton(
                     modifier = Modifier
                         .weight(1f)
@@ -67,36 +69,48 @@ fun Bag(modifier: Modifier) {
                     Text(text = stringResource(id = R.string.bag_main_pocket))
                 }
                 PocketActionButton(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(10.dp)
-                            .fillMaxWidth(),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(10.dp)
+                        .fillMaxWidth(),
                     false
                 ) {
-                Text(text = stringResource(id = R.string.bag_small_pocket))
-            }
+                    Text(text = stringResource(id = R.string.bag_small_pocket))
+                }
             }
         }
-        Row(modifier = Modifier
-            .weight(0.2f)
-            .padding(horizontal = 30.dp),
-            verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier
+                .weight(0.2f)
+                .padding(horizontal = 30.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             BadgeCase()
         }
     }
 }
 
 @Composable
-fun PocketActionButton(modifier: Modifier, mainBag: Boolean, content: @Composable RowScope.() -> Unit) {
+fun PocketActionButton(
+    modifier: Modifier,
+    mainBag: Boolean,
+    content: @Composable RowScope.() -> Unit
+) {
     val openDialog = remember { mutableStateOf(false) }
-    if(openDialog.value) {
-        Dialog(onDismissRequest = {openDialog.value = false}) {
+    if (openDialog.value) {
+        Dialog(onDismissRequest = { openDialog.value = false }) {
             Column(
                 modifier = Modifier
-                .background(Color.White)
+                    .background(Color.White)
             ) {
                 val title = if (mainBag) R.string.bag_main_pocket else R.string.bag_small_pocket
-                Text(modifier = Modifier.fillMaxWidth().padding(10.dp), text = stringResource(id = title), textAlign = TextAlign.Center)
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    text = stringResource(id = title),
+                    textAlign = TextAlign.Center
+                )
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     Modifier
@@ -111,7 +125,8 @@ fun PocketActionButton(modifier: Modifier, mainBag: Boolean, content: @Composabl
                             value = inputText,
                             modifier = Modifier.padding(10.dp),
                             onValueChange = {
-                                if(mainBag) trainer.bag.mainItems[index] = it else trainer.bag.battleItems[index] = it
+                                if (mainBag) trainer.bag.mainItems[index] =
+                                    it else trainer.bag.battleItems[index] = it
                                 trainer.saveBagUpdates()
                                 inputText = it
                             }
@@ -146,23 +161,31 @@ fun PotionPocket(modifier: Modifier) {
 @Composable
 fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
     val potionType = Potion.getPotionByType(trainer.bag, potionName)
-    var potionCount by remember { mutableStateOf( trainer.bag.getPotionList(potionName)?.size?.toString()?:"0") }
-    var ActionButtonPress by remember { mutableStateOf(true)}
-    var potionUses by remember { mutableStateOf(trainer.bag.getPotionList(potionName)?.firstOrNull()?.uses?:0) }
+    var potionCount by remember {
+        mutableStateOf(
+            trainer.bag.getPotionList(potionName)?.size?.toString() ?: "0"
+        )
+    }
+    var ActionButtonPress by remember { mutableStateOf(true) }
+    var potionUses by remember {
+        mutableStateOf(
+            trainer.bag.getPotionList(potionName)?.firstOrNull()?.uses ?: 0
+        )
+    }
     Row(modifier = modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically)
     {
         ActionButton(modifier = Modifier.weight(0.25f), onClick = {
-            val potion =  trainer.bag.getPotionList(potionName).firstOrNull()
+            val potion = trainer.bag.getPotionList(potionName).firstOrNull()
             potion?.let {
                 potion.uses--
                 potionUses = potion.uses
-                if(potion.uses == 0) {
+                if (potion.uses == 0) {
                     trainer.bag.popFirstPotion(potionName)
                 }
                 potionCount = trainer.bag.getPotionList(potionName).size.toString()
             }
             potionUses = if (trainer.bag.getPotionList(potionName).isEmpty()) 0
-                        else trainer.bag.getPotionList(potionName).firstOrNull()?.uses?:potionType.maxUses
+            else trainer.bag.getPotionList(potionName).firstOrNull()?.uses ?: potionType.maxUses
             ActionButtonPress = !ActionButtonPress
         }) {
             Text(textAlign = TextAlign.Center, text = potionName.name.replace("_", " "))
@@ -180,12 +203,13 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
                 val count = it
                 try {
                     val newListSize = Integer.parseInt(count)
-                    val topPotionUses =  trainer.bag.getPotionList(potionName).firstOrNull()?.uses ?: potionType.maxUses
+                    val topPotionUses = trainer.bag.getPotionList(potionName).firstOrNull()?.uses
+                        ?: potionType.maxUses
                     trainer.bag.clearPotions(potionName)
                     for (i in 0 until newListSize) {
                         trainer.bag.addPotion(potionName)
                     }
-                    if ( trainer.bag.getPotionList(potionName).size > 0) {
+                    if (trainer.bag.getPotionList(potionName).size > 0) {
                         trainer.bag.getPotionList(potionName).first().uses = topPotionUses
                     }
                 } catch (ex: NumberFormatException) {
@@ -193,31 +217,27 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
                 }
                 potionCount = count
                 potionUses = if (trainer.bag.getPotionList(potionName).isEmpty()) 0
-                            else trainer.bag.getPotionList(potionName).firstOrNull()?.uses?:potionType.maxUses
+                else trainer.bag.getPotionList(potionName).firstOrNull()?.uses ?: potionType.maxUses
             })
         val maxUses = 7.coerceAtMost(potionType.maxUses)
         Column(modifier = Modifier.weight(0.55f), horizontalAlignment = Alignment.Start) {
             Row(horizontalArrangement = Arrangement.Start) {
                 for (i in 0 until maxUses) {
-                    CompositionLocalProvider(LocalMinimumTouchTargetEnforcement provides false) {
-                        Checkbox(
-                            checked = i < potionUses,
-                            onCheckedChange = {},
-                            enabled = false
-                        )
-                    }
+                    MyCheckBox(
+                        checked = i < potionUses,
+                        onCheckedChange = {},
+                        enabled = false
+                    )
                 }
             }
             if (potionType.maxUses > 7) {
                 Row(horizontalArrangement = Arrangement.Start) {
                     for (i in 0 until 7) {
-                        CompositionLocalProvider(LocalMinimumTouchTargetEnforcement provides false) {
-                            Checkbox(
-                                checked = i+7 < potionUses,
-                                onCheckedChange = {},
-                                enabled = false
-                            )
-                        }
+                        MyCheckBox(
+                            checked = i + 7 < potionUses,
+                            onCheckedChange = {},
+                            enabled = false
+                        )
                     }
                 }
             } else {
@@ -229,13 +249,14 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
 
 @Composable
 fun BadgeCase() {
-    Row(modifier = Modifier.fillMaxWidth(),
+    Row(
+        modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = "Badges: ")
-       for (i in 0 until 8) {
-           Icon(Icons.Rounded.Lock, contentDescription = "Player Badge")
+        for (i in 0 until 8) {
+            Icon(Icons.Rounded.Lock, contentDescription = "Player Badge")
         }
     }
 }

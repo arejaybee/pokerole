@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.arejaybee.pokerole_core_sheet.R
 import com.arejaybee.pokerole_core_sheet.trainer.Trainer
 import com.arejaybee.pokerole_core_sheet.views.trainer.Bag
+import com.arejaybee.pokerole_core_sheet.views.trainer.Skill
 import com.arejaybee.pokerole_core_sheet.views.trainer.TrainerCard
 
 enum class Page { TRAINER_CARD, SKILLS, BAG, POKEMON }
@@ -49,7 +50,7 @@ fun MainContentView(newTrainer: Trainer) {
                 val pageModifier = Modifier.weight(0.85f)
                 when (selectedPage) {
                     Page.TRAINER_CARD -> TrainerCard(modifier = pageModifier)
-                    Page.SKILLS -> Text("")
+                    Page.SKILLS -> Skill(modifier = pageModifier)
                     Page.BAG -> Bag(modifier = pageModifier)
                     else -> Text("")
                 }

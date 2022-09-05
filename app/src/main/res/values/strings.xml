@@ -25,5 +25,38 @@
     <string name="bag_hyper_potion">Hyper Potion</string>
 
     <!--Skills-->
+    <string name="skills_other_skill">Other Skills</string>
+    <string name="skills_strength">Strength</string>
+    <string name="skills_tough">Tough</string>
+    <string name="skills_dexterity">Dexterity</string>
+    <string name="skills_cool">Cool</string>
+    <string name="skills_vitality">Vitality</string>
+    <string name="skills_beauty">Beauty</string>
+    <string name="skills_insight">Insight</string>
+    <string name="skills_intelligence">Intelligence</string>
+    <string name="skills_fight">Fight</string>
+    <string name="skills_survival">Survival</string>
+    <string name="skills_contest">Contest</string>
+    <string name="skills_knowledge">Knowledge</string>
+
+    <string name="skills_brawl">Brawl</string>
+    <string name="skills_throw">Throw</string>
+    <string name="skills_evasion">Evasion</string>
+    <string name="skills_weapons">Weapons</string>
+
+    <string name="skills_alert">Alert</string>
+    <string name="skills_athletic">Athletic</string>
+    <string name="skills_nature">Nature</string>
+    <string name="skills_stealth">Stealth</string>
+
+    <string name="skills_empathy">Empathy</string>
+    <string name="skills_etiquette">Etiquette</string>
+    <string name="skills_intimidate">Intimidate</string>
+    <string name="skills_perform">Perform</string>
+
+    <string name="skills_crafts">Crafts</string>
+    <string name="skills_lore">Lore</string>
+    <string name="skills_medicine">Medicine</string>
+    <string name="skills_science">Science</string>
 
 </resources>
