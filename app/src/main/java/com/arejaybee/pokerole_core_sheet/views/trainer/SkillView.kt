@@ -22,9 +22,9 @@ import androidx.compose.ui.window.Dialog
 import com.arejaybee.pokerole_core_sheet.R
 import com.arejaybee.pokerole_core_sheet.Utility.MyCheckBox
 import com.arejaybee.pokerole_core_sheet.views.ActionButton
-import com.arejaybee.pokerole_core_sheet.views.trainer
+import com.arejaybee.pokerole_core_sheet.views.context
 
-val checkboxNumber = 5
+const val checkboxNumber = 5
 
 @Composable
 fun Skill(modifier: Modifier) {
@@ -93,8 +93,8 @@ fun Skill(modifier: Modifier) {
 @Composable
 fun StrengthRow() {
     Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-        var check1 by remember { mutableStateOf(trainer.strength) }
-        var check2 by remember { mutableStateOf(trainer.tough) }
+        var check1 by remember { mutableStateOf(context.trainer.strength) }
+        var check2 by remember { mutableStateOf(context.trainer.tough) }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(stringResource(id = R.string.skills_strength))
             Row {
@@ -102,7 +102,7 @@ fun StrengthRow() {
                     MyCheckBox(
                         checked = i < check1,
                         onCheckedChange = {
-                            trainer.strength = i + if(it) 1 else 0
+                            context.trainer.strength = i + if(it) 1 else 0
                             check1 = i + if(it) 1 else 0
                         }
                     )
@@ -117,7 +117,7 @@ fun StrengthRow() {
                     MyCheckBox(
                         checked = i < check2,
                         onCheckedChange = {
-                            trainer.tough = i + if(it) 1 else 0
+                            context.trainer.tough = i + if(it) 1 else 0
                             check2 = i + if(it) 1 else 0
                         }
                     )
@@ -130,8 +130,8 @@ fun StrengthRow() {
 @Composable
 fun DexterityRow() {
     Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-        var check1 by remember { mutableStateOf(trainer.dexterity) }
-        var check2 by remember { mutableStateOf(trainer.cool) }
+        var check1 by remember { mutableStateOf(context.trainer.dexterity) }
+        var check2 by remember { mutableStateOf(context.trainer.cool) }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(stringResource(id = R.string.skills_dexterity))
             Row {
@@ -139,7 +139,7 @@ fun DexterityRow() {
                     MyCheckBox(
                         checked = i < check1,
                         onCheckedChange = {
-                            trainer.dexterity = i + if(it) 1 else 0
+                            context.trainer.dexterity = i + if(it) 1 else 0
                             check1 = i + if(it) 1 else 0
                         }
                     )
@@ -154,7 +154,7 @@ fun DexterityRow() {
                     MyCheckBox(
                         checked = i < check2,
                         onCheckedChange = {
-                            trainer.cool = i + if(it) 1 else 0
+                            context.trainer.cool = i + if(it) 1 else 0
                             check2 = i + if(it) 1 else 0
                         }
                     )
@@ -167,8 +167,8 @@ fun DexterityRow() {
 @Composable
 fun VitalityRow() {
     Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-        var check1 by remember { mutableStateOf(trainer.vitality) }
-        var check2 by remember { mutableStateOf(trainer.beauty) }
+        var check1 by remember { mutableStateOf(context.trainer.vitality) }
+        var check2 by remember { mutableStateOf(context.trainer.beauty) }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(stringResource(id = R.string.skills_vitality))
             Row {
@@ -176,7 +176,7 @@ fun VitalityRow() {
                     MyCheckBox(
                         checked = i < check1,
                         onCheckedChange = {
-                            trainer.vitality = i + if(it) 1 else 0
+                            context.trainer.vitality = i + if(it) 1 else 0
                             check1 = i + if(it) 1 else 0
                         }
                     )
@@ -191,7 +191,7 @@ fun VitalityRow() {
                     MyCheckBox(
                         checked = i < check2,
                         onCheckedChange = {
-                            trainer.beauty = i + if(it) 1 else 0
+                            context.trainer.beauty = i + if(it) 1 else 0
                             check2 = i + if(it) 1 else 0
                         }
                     )
@@ -204,8 +204,8 @@ fun VitalityRow() {
 @Composable
 fun InsightRow() {
     Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-        var check1 by remember { mutableStateOf(trainer.insight) }
-        var check2 by remember { mutableStateOf(trainer.intelligence) }
+        var check1 by remember { mutableStateOf(context.trainer.insight) }
+        var check2 by remember { mutableStateOf(context.trainer.intelligence) }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(stringResource(id = R.string.skills_insight))
             Row {
@@ -213,7 +213,7 @@ fun InsightRow() {
                     MyCheckBox(
                         checked = i < check1,
                         onCheckedChange = {
-                            trainer.insight = i + if(it) 1 else 0
+                            context.trainer.insight = i + if(it) 1 else 0
                             check1 = i + if(it) 1 else 0
                         }
                     )
@@ -228,7 +228,7 @@ fun InsightRow() {
                     MyCheckBox(
                         checked = i < check2,
                         onCheckedChange = {
-                            trainer.intelligence = i + if(it) 1 else 0
+                            context.trainer.intelligence = i + if(it) 1 else 0
                             check2 = i + if(it) 1 else 0
                         }
                     )
@@ -240,11 +240,11 @@ fun InsightRow() {
 
 @Composable
 fun FightDialog() {
-    var check1 by remember { mutableStateOf(trainer.fight) }
-    var check2 by remember { mutableStateOf(trainer.brawl) }
-    var check3 by remember { mutableStateOf(trainer.tThrow) }
-    var check4 by remember { mutableStateOf(trainer.evasion) }
-    var check5 by remember { mutableStateOf(trainer.weapons) }
+    var check1 by remember { mutableStateOf(context.trainer.fight) }
+    var check2 by remember { mutableStateOf(context.trainer.brawl) }
+    var check3 by remember { mutableStateOf(context.trainer.tThrow) }
+    var check4 by remember { mutableStateOf(context.trainer.evasion) }
+    var check5 by remember { mutableStateOf(context.trainer.weapons) }
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -257,7 +257,7 @@ fun FightDialog() {
                 MyCheckBox(
                     checked = i < check1,
                     onCheckedChange = {
-                        trainer.fight = i + if(it) 1 else 0
+                        context.trainer.fight = i + if(it) 1 else 0
                         check1 = i + if(it) 1 else 0
                     }
                 )
@@ -269,7 +269,7 @@ fun FightDialog() {
                 MyCheckBox(
                     checked = i < check2,
                     onCheckedChange = {
-                        trainer.brawl = i + if(it) 1 else 0
+                        context.trainer.brawl = i + if(it) 1 else 0
                         check2 = i + if(it) 1 else 0
                     }
                 )
@@ -281,7 +281,7 @@ fun FightDialog() {
                 MyCheckBox(
                     checked = i < check3,
                     onCheckedChange = {
-                        trainer.tThrow = i + if(it) 1 else 0
+                        context.trainer.tThrow = i + if(it) 1 else 0
                         check3 = i + if(it) 1 else 0
                     }
                 )
@@ -293,7 +293,7 @@ fun FightDialog() {
                 MyCheckBox(
                     checked = i < check4,
                     onCheckedChange = {
-                        trainer.evasion = i + if(it) 1 else 0
+                        context.trainer.evasion = i + if(it) 1 else 0
                         check4 = i + if(it) 1 else 0
                     }
                 )
@@ -305,7 +305,7 @@ fun FightDialog() {
                 MyCheckBox(
                     checked = i < check5,
                     onCheckedChange = {
-                        trainer.weapons = i + if(it) 1 else 0
+                        context.trainer.weapons = i + if(it) 1 else 0
                         check5 = i + if(it) 1 else 0
                     }
                 )
@@ -316,11 +316,11 @@ fun FightDialog() {
 
 @Composable
 fun SurvivalDialog() {
-    var check1 by remember { mutableStateOf(trainer.survival) }
-    var check2 by remember { mutableStateOf(trainer.alert) }
-    var check3 by remember { mutableStateOf(trainer.atheletic) }
-    var check4 by remember { mutableStateOf(trainer.natural) }
-    var check5 by remember { mutableStateOf(trainer.stealth) }
+    var check1 by remember { mutableStateOf(context.trainer.survival) }
+    var check2 by remember { mutableStateOf(context.trainer.alert) }
+    var check3 by remember { mutableStateOf(context.trainer.atheletic) }
+    var check4 by remember { mutableStateOf(context.trainer.natural) }
+    var check5 by remember { mutableStateOf(context.trainer.stealth) }
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -333,7 +333,7 @@ fun SurvivalDialog() {
                 MyCheckBox(
                     checked = i < check1,
                     onCheckedChange = {
-                        trainer.survival = i + if(it) 1 else 0
+                        context.trainer.survival = i + if(it) 1 else 0
                         check1 = i + if(it) 1 else 0
                     }
                 )
@@ -345,7 +345,7 @@ fun SurvivalDialog() {
                 MyCheckBox(
                     checked = i < check2,
                     onCheckedChange = {
-                        trainer.alert = i + if(it) 1 else 0
+                        context.trainer.alert = i + if(it) 1 else 0
                         check2 = i + if(it) 1 else 0
                     }
                 )
@@ -357,7 +357,7 @@ fun SurvivalDialog() {
                 MyCheckBox(
                     checked = i < check3,
                     onCheckedChange = {
-                        trainer.atheletic = i + if(it) 1 else 0
+                        context.trainer.atheletic = i + if(it) 1 else 0
                         check3 = i + if(it) 1 else 0
                     }
                 )
@@ -369,7 +369,7 @@ fun SurvivalDialog() {
                 MyCheckBox(
                     checked = i < check4,
                     onCheckedChange = {
-                        trainer.natural = i + if(it) 1 else 0
+                        context.trainer.natural = i + if(it) 1 else 0
                         check4 = i + if(it) 1 else 0
                     }
                 )
@@ -381,7 +381,7 @@ fun SurvivalDialog() {
                 MyCheckBox(
                     checked = i < check5,
                     onCheckedChange = {
-                        trainer.stealth = i + if(it) 1 else 0
+                        context.trainer.stealth = i + if(it) 1 else 0
                         check5 = i + if(it) 1 else 0
                     }
                 )
@@ -392,11 +392,11 @@ fun SurvivalDialog() {
 
 @Composable
 fun ContestDialog() {
-    var check1 by remember { mutableStateOf(trainer.contest) }
-    var check2 by remember { mutableStateOf(trainer.empathy) }
-    var check3 by remember { mutableStateOf(trainer.etiquette) }
-    var check4 by remember { mutableStateOf(trainer.intimidate) }
-    var check5 by remember { mutableStateOf(trainer.perform) }
+    var check1 by remember { mutableStateOf(context.trainer.contest) }
+    var check2 by remember { mutableStateOf(context.trainer.empathy) }
+    var check3 by remember { mutableStateOf(context.trainer.etiquette) }
+    var check4 by remember { mutableStateOf(context.trainer.intimidate) }
+    var check5 by remember { mutableStateOf(context.trainer.perform) }
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -409,7 +409,7 @@ fun ContestDialog() {
                 MyCheckBox(
                     checked = i < check1,
                     onCheckedChange = {
-                        trainer.contest = i + if(it) 1 else 0
+                        context.trainer.contest = i + if(it) 1 else 0
                         check1 = i + if(it) 1 else 0
                     }
                 )
@@ -421,7 +421,7 @@ fun ContestDialog() {
                 MyCheckBox(
                     checked = i < check2,
                     onCheckedChange = {
-                        trainer.empathy = i + if(it) 1 else 0
+                        context.trainer.empathy = i + if(it) 1 else 0
                         check2 = i + if(it) 1 else 0
                     }
                 )
@@ -433,7 +433,7 @@ fun ContestDialog() {
                 MyCheckBox(
                     checked = i < check3,
                     onCheckedChange = {
-                        trainer.etiquette = i + if(it) 1 else 0
+                        context.trainer.etiquette = i + if(it) 1 else 0
                         check3 = i + if(it) 1 else 0
                     }
                 )
@@ -445,7 +445,7 @@ fun ContestDialog() {
                 MyCheckBox(
                     checked = i < check4,
                     onCheckedChange = {
-                        trainer.intimidate = i + if(it) 1 else 0
+                        context.trainer.intimidate = i + if(it) 1 else 0
                         check4 = i + if(it) 1 else 0
                     }
                 )
@@ -457,7 +457,7 @@ fun ContestDialog() {
                 MyCheckBox(
                     checked = i < check5,
                     onCheckedChange = {
-                        trainer.perform = i + if(it) 1 else 0
+                        context.trainer.perform = i + if(it) 1 else 0
                         check5 = i + if(it) 1 else 0
                     }
                 )
@@ -468,11 +468,11 @@ fun ContestDialog() {
 
 @Composable
 fun KnowledgeDialog() {
-    var check1 by remember { mutableStateOf(trainer.knowledge) }
-    var check2 by remember { mutableStateOf(trainer.crafts) }
-    var check3 by remember { mutableStateOf(trainer.lore) }
-    var check4 by remember { mutableStateOf(trainer.medicine) }
-    var check5 by remember { mutableStateOf(trainer.science) }
+    var check1 by remember { mutableStateOf(context.trainer.knowledge) }
+    var check2 by remember { mutableStateOf(context.trainer.crafts) }
+    var check3 by remember { mutableStateOf(context.trainer.lore) }
+    var check4 by remember { mutableStateOf(context.trainer.medicine) }
+    var check5 by remember { mutableStateOf(context.trainer.science) }
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -485,7 +485,7 @@ fun KnowledgeDialog() {
                 MyCheckBox(
                     checked = i < check1,
                     onCheckedChange = {
-                        trainer.knowledge = i + if(it) 1 else 0
+                        context.trainer.knowledge = i + if(it) 1 else 0
                         check1 = i + if(it) 1 else 0
                     }
                 )
@@ -497,7 +497,7 @@ fun KnowledgeDialog() {
                 MyCheckBox(
                     checked = i < check2,
                     onCheckedChange = {
-                        trainer.crafts = i + if(it) 1 else 0
+                        context.trainer.crafts = i + if(it) 1 else 0
                         check2 = i + if(it) 1 else 0
                     }
                 )
@@ -509,7 +509,7 @@ fun KnowledgeDialog() {
                 MyCheckBox(
                     checked = i < check3,
                     onCheckedChange = {
-                        trainer.lore = i + if(it) 1 else 0
+                        context.trainer.lore = i + if(it) 1 else 0
                         check3 = i + if(it) 1 else 0
                     }
                 )
@@ -521,7 +521,7 @@ fun KnowledgeDialog() {
                 MyCheckBox(
                     checked = i < check4,
                     onCheckedChange = {
-                        trainer.medicine = i + if(it) 1 else 0
+                        context.trainer.medicine = i + if(it) 1 else 0
                         check4 = i + if(it) 1 else 0
                     }
                 )
@@ -533,7 +533,7 @@ fun KnowledgeDialog() {
                 MyCheckBox(
                     checked = i < check5,
                     onCheckedChange = {
-                        trainer.science = i + if(it) 1 else 0
+                        context.trainer.science = i + if(it) 1 else 0
                         check5 = i + if(it) 1 else 0
                     }
                 )

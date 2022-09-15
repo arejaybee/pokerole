@@ -25,23 +25,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.arejaybee.pokerole_core_sheet.MainActivity
 import com.arejaybee.pokerole_core_sheet.R
-import com.arejaybee.pokerole_core_sheet.trainer.Trainer
 import com.arejaybee.pokerole_core_sheet.views.trainer.Bag
 import com.arejaybee.pokerole_core_sheet.views.trainer.Skill
 import com.arejaybee.pokerole_core_sheet.views.trainer.TrainerCard
 
 enum class Page { TRAINER_CARD, SKILLS, BAG, POKEMON }
-
-lateinit var trainer: Trainer
+lateinit var context: MainActivity
 
 var selectedPage by mutableStateOf(Page.TRAINER_CARD)
-
 val roundedMod = Modifier.clip(RoundedCornerShape(25, 25, 25, 25))
 
 @Composable
-fun MainContentView(newTrainer: Trainer) {
-    trainer = newTrainer
+fun MainContentView(newContext: MainActivity) {
+    context = newContext
     Box(Modifier.background(colorResource(id = R.color.background_primary))) {
         Column(Modifier.padding(10.dp)) {
             Row(Modifier.weight(0.8f)) {
@@ -90,7 +88,7 @@ fun NavButtons(modifier: Modifier = Modifier) {
 @Composable
 fun PokemonGrid(modifier: Modifier) {
     Row(modifier = modifier) {
-        trainer.pokemon.forEach { pokemon ->
+        context.trainer.pokemon.forEach { pokemon ->
             Image(
                 painterResource(id = R.drawable.ic_pokeball),
                 contentDescription = "",

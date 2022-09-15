@@ -33,6 +33,12 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener {
         editor.apply()
     }
 
+    var profilePicture: String = ""
+    set(value) {
+        field = value
+        saveData()
+    }
+
 
     //Card fields
     var name = ""
