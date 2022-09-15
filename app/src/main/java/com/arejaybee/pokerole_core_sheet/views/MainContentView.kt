@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arejaybee.pokerole_core_sheet.MainActivity
 import com.arejaybee.pokerole_core_sheet.R
+import com.arejaybee.pokerole_core_sheet.R.string
 import com.arejaybee.pokerole_core_sheet.views.trainer.Bag
 import com.arejaybee.pokerole_core_sheet.views.trainer.Skill
 import com.arejaybee.pokerole_core_sheet.views.trainer.TrainerCard
@@ -59,6 +60,7 @@ fun MainContentView(newContext: MainActivity) {
     }
 }
 
+
 @Composable
 fun NavButtons(modifier: Modifier = Modifier) {
     Column(
@@ -67,20 +69,20 @@ fun NavButtons(modifier: Modifier = Modifier) {
             .fillMaxHeight(),
         verticalArrangement = Arrangement.Top
     ) {
-       ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
+        ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPage = Page.TRAINER_CARD
         }) {
-            Text(stringResource(id = R.string.nav_trainer_card), textAlign = TextAlign.Center)
+            Text(stringResource(id = string.nav_trainer_card), textAlign = TextAlign.Center)
         }
         ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPage = Page.SKILLS
         }) {
-            Text(stringResource(id = R.string.nav_trainer_skills), textAlign = TextAlign.Center)
+            Text(stringResource(id = string.nav_trainer_skills), textAlign = TextAlign.Center)
         }
         ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPage = Page.BAG
         }) {
-            Text(stringResource(id = R.string.nav_trainer_bag), textAlign = TextAlign.Center)
+            Text(stringResource(id = string.nav_trainer_bag), textAlign = TextAlign.Center)
         }
     }
 }
@@ -96,7 +98,7 @@ fun PokemonGrid(modifier: Modifier) {
                 modifier = Modifier
                     .weight(1f)
                     .clickable {
-
+                        context.GoToPokemonView(pokemon)
                     }
             )
             Spacer(modifier = Modifier.padding(10.dp))

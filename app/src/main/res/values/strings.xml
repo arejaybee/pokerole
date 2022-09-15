@@ -6,6 +6,12 @@
     <string name="nav_trainer_skills">Skills</string>
     <string name="nav_trainer_bag">Bag</string>
 
+    <!-- Pokemon Main Page-->
+    <string name="nav_pokemon_card">Details</string>
+    <string name="nav_pokemon_moves">Moves</string>
+    <string name="nav_pokemon_skills">Skills</string>
+    <string name="nav_pokemon_attributes">Attributes</string>
+
     <!--Trainer Card-->
     <string name="trainer_card_name">Name</string>
     <string name="trainer_card_age">Age</string>

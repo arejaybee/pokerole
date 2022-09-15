@@ -6,12 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.mutableStateOf
+import com.arejaybee.pokerole_core_sheet.pokemon.Pokemon
 import com.arejaybee.pokerole_core_sheet.trainer.Trainer
 import com.arejaybee.pokerole_core_sheet.views.MainContentView
+import com.arejaybee.pokerole_core_sheet.views.PokemonContentView
+import com.arejaybee.pokerole_core_sheet.views.context
 
 class MainActivity : AppCompatActivity() {
 
     val imageUriState = mutableStateOf<Uri?>(null)
+    val activityPageFlag = mutableStateOf<Pokemon?>(null)
+
     val selectImageLauncher = registerForActivityResult(GetContent()) {
         imageUriState.value = it
         trainer.profilePicture = it.toString()
@@ -27,7 +32,13 @@ class MainActivity : AppCompatActivity() {
         }
         imageUriState.value = if(trainer.profilePicture.isEmpty()) null else Uri.parse(trainer.profilePicture)
         setContent {
-            MainContentView(this)
+            activityPageFlag.value?.let {
+                PokemonContentView(this, it)
+            }?: MainContentView(this)
         }
+    }
+
+    fun GoToPokemonView(pokemon: Pokemon) {
+        context.activityPageFlag.value = pokemon
     }
 }
