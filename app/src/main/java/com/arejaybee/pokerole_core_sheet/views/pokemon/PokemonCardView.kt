@@ -33,8 +33,7 @@ import com.arejaybee.pokerole_core_sheet.views.NatureDropdown
 import com.arejaybee.pokerole_core_sheet.views.TypeDropdown
 import com.arejaybee.pokerole_core_sheet.views.context
 import com.arejaybee.pokerole_core_sheet.views.roundedMod
-//Name Nature Ability
-//Level XP
+
 @Composable
 fun PokemonCardView(modifier: Modifier) {
 

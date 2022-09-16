@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arejaybee.pokerole_core_sheet.R
+import com.arejaybee.pokerole_core_sheet.pokemon.PokemonStatus
 import com.arejaybee.pokerole_core_sheet.pokemon.PokemonType
 import com.arejaybee.pokerole_core_sheet.trainer.Nature
 import com.arejaybee.pokerole_core_sheet.views.SkillDialogType.PokemonContest
@@ -54,12 +55,13 @@ import com.skydoves.landscapist.ImageOptions
 fun ActionButton(
     modifier: Modifier,
     onClick: () -> Unit,
-    content: @Composable() (RowScope.() -> Unit)
+    color: Int = R.color.button_primary,
+    content: @Composable (RowScope.() -> Unit)
 ) {
     Button(
         modifier = modifier,
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.button_primary))
+        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = color))
     ) {
         content()
     }
@@ -77,7 +79,7 @@ fun GlideImage(uriString: String?, defaultImage: Int, modifier: Modifier = Modif
 @Composable
 fun GlideImage(uri: Uri?, defaultImage: Int, modifier: Modifier = Modifier) {
     uri?.let {
-        com.skydoves.landscapist.glide.GlideImage(imageModel = it, modifier = modifier, imageOptions = ImageOptions(contentScale = ContentScale.FillHeight))
+        com.skydoves.landscapist.glide.GlideImage(imageModel = it, modifier = modifier, imageOptions = ImageOptions(contentScale = ContentScale.Fit))
     } ?: run {
         Image(
             painter = painterResource(id = defaultImage),
@@ -131,7 +133,7 @@ fun <T> Dropdown(modifier: Modifier, selection: MutableState<String>, list: Arra
                     selection.value = item.toString()
                 }
             ) {
-                Text(item.toString())
+                Text(item.toString().replace("_"," "))
             }
         }
     }
@@ -149,7 +151,7 @@ fun NatureDropdown(modifier: Modifier = Modifier, selection: String, onSelect: (
         },
         content = {
             Text(
-                text = boxName.value,
+                text = boxName.value.replace("_"," "),
                 textAlign = TextAlign.Center
             )
             Dropdown(
@@ -175,13 +177,39 @@ fun TypeDropdown(modifier: Modifier = Modifier, selection: String, onSelect: (se
         label = stringResource(id = R.string.dropdown_label_type),
         content = {
             Text(
-                text = boxName.value,
+                text = boxName.value.replace("_"," "),
                 textAlign = TextAlign.Center
             )
             Dropdown(
                 modifier = Modifier.align(Alignment.Center),
                 selection = boxName,
                 list = PokemonType.values(),
+                expanded = expanded,
+                onSelect = onSelect
+            )
+        }
+    )
+}
+
+@Composable
+fun StatusDropdown(modifier: Modifier = Modifier, selection: String, onSelect: (selection: PokemonStatus) -> Unit) {
+    val expanded = remember { mutableStateOf(false) }
+    val boxName = remember { mutableStateOf(selection) }
+    LabeledButton(
+        modifier = modifier,
+        onClick = {
+            expanded.value = true
+        },
+        label = stringResource(id = R.string.dropdown_label_type),
+        content = {
+            Text(
+                text = boxName.value.replace("_"," "),
+                textAlign = TextAlign.Center
+            )
+            Dropdown(
+                modifier = Modifier.align(Alignment.Center),
+                selection = boxName,
+                list = PokemonStatus.values(),
                 expanded = expanded,
                 onSelect = onSelect
             )
@@ -234,7 +262,6 @@ fun AttributeDialog(type: SkillDialogType) {
             items(4) { index ->
                 DialogSkillTextField(index + 1, stringList, inputList, aList, type)
             }
-
         }
     }
 }

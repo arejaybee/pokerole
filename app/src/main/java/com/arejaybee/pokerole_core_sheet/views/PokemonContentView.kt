@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arejaybee.pokerole_core_sheet.MainActivity
 import com.arejaybee.pokerole_core_sheet.R
+import com.arejaybee.pokerole_core_sheet.views.pokemon.PokemonBattleView
 import com.arejaybee.pokerole_core_sheet.views.pokemon.PokemonCardView
 import com.arejaybee.pokerole_core_sheet.views.pokemon.PokemonSkill
 
@@ -33,16 +34,14 @@ fun PokemonContentView(newContext: MainActivity) {
     context = newContext
     Box(Modifier.background(colorResource(id = R.color.background_primary))) {
         Row(modifier = Modifier.padding(10.dp)) {
-            PokemonNavButtons(modifier = Modifier
-                .weight(0.15f)
-                .fillMaxWidth())
+            PokemonNavButtons(modifier = Modifier.weight(0.15f).fillMaxWidth(), selectedPokemonPage)
             Spacer(modifier = Modifier.padding(horizontal = 10.dp))
             val pageModifier = Modifier
                 .weight(0.85f)
                 .align(Alignment.CenterVertically)
             when (selectedPokemonPage) {
                 PokemonPage.POKEMON -> PokemonCardView(pageModifier)
-                PokemonPage.MOVES -> Text("")
+                PokemonPage.MOVES -> PokemonBattleView(pageModifier)
                 PokemonPage.SKILLS -> PokemonSkill(pageModifier)
                 else -> Text("")
             }
@@ -51,7 +50,7 @@ fun PokemonContentView(newContext: MainActivity) {
 }
 
 @Composable
-fun PokemonNavButtons(modifier: Modifier = Modifier) {
+fun PokemonNavButtons(modifier: Modifier = Modifier, page: PokemonPage) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -60,22 +59,26 @@ fun PokemonNavButtons(modifier: Modifier = Modifier) {
     ) {
         ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPokemonPage = PokemonPage.POKEMON
-        }) {
+        },
+            color = if (page == PokemonPage.POKEMON) R.color.my_button_secondary else R.color.button_primary) {
             Text(stringResource(id = R.string.nav_pokemon_card), textAlign = TextAlign.Center)
         }
 
         ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPokemonPage = PokemonPage.MOVES
-        }) {
+        },
+            color = if (page == PokemonPage.MOVES) R.color.my_button_secondary else R.color.button_primary) {
             Text(stringResource(id = R.string.nav_pokemon_moves), textAlign = TextAlign.Center)
         }
         ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPokemonPage = PokemonPage.SKILLS
-        }) {
+        },
+            color = if (page == PokemonPage.SKILLS) R.color.my_button_secondary else R.color.button_primary) {
             Text(stringResource(id = R.string.nav_pokemon_skills), textAlign = TextAlign.Center)
         }
         ActionButton(modifier= roundedMod.fillMaxWidth(), onClick = {
-                context.selectedPokemon.value = null
+            selectedPage = Page.TRAINER_CARD
+            context.selectedPokemon.value = null
         }) {
             Text(text = stringResource(id = R.string.nav_pokemon_to_trainer), textAlign = TextAlign.Center)
         }

@@ -238,11 +238,12 @@ private fun SkillsSection(modifier: Modifier) {
 
 @Composable
 private fun AttributeButtons(modifier: Modifier) {
+    val pokemon = context.selectedPokemon.value!!
     var buttonIndex by remember { mutableStateOf(0) }
     var openDialog by remember { mutableStateOf(false) }
-    var inputHappiness by remember { mutableStateOf(context.selectedPokemon.value?.happiness.toString()) }
-    var inputLoyalty by remember { mutableStateOf(context.selectedPokemon.value?.loyalty.toString()) }
-    var inputDisobedience by remember { mutableStateOf(context.selectedPokemon.value?.disobedience.toString()) }
+    var inputHappiness by remember { mutableStateOf(pokemon.happiness.toString()) }
+    var inputLoyalty by remember { mutableStateOf(pokemon.loyalty.toString()) }
+    var inputDisobedience by remember { mutableStateOf(pokemon.disobedience.toString()) }
     if (openDialog) {
         Dialog(onDismissRequest = { openDialog = false }) {
             when (buttonIndex) {
@@ -252,16 +253,16 @@ private fun AttributeButtons(modifier: Modifier) {
             }
         }
     }
+    val buttons = listOf(
+        stringResource(R.string.skills_fight) + "(${pokemon.fight})",
+        stringResource(R.string.skills_survival) + "(${pokemon.survival})",
+        stringResource(R.string.skills_contest) + "(${pokemon.contest})"
+    )
     LazyVerticalGrid(
         modifier = modifier.padding(horizontal = 20.dp),
         columns = GridCells.Fixed(3),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        val buttons = listOf(
-            R.string.skills_fight,
-            R.string.skills_survival,
-            R.string.skills_contest
-        )
         item {
             TextField(
                 modifier = roundedMod,
@@ -321,7 +322,7 @@ private fun AttributeButtons(modifier: Modifier) {
                     openDialog = true
                 }
             ) {
-                Text(text = stringResource(id = buttons[index]))
+                Text(text = buttons[index])
             }
         }
     }

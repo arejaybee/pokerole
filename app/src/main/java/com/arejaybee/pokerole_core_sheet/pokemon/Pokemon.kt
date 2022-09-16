@@ -1,5 +1,6 @@
 package com.arejaybee.pokerole_core_sheet.pokemon
 
+import androidx.compose.runtime.MutableState
 import com.arejaybee.pokerole_core_sheet.trainer.Nature
 import com.arejaybee.pokerole_core_sheet.views.SkillDialogType
 import com.arejaybee.pokerole_core_sheet.views.SkillDialogType.PokemonContest
@@ -40,6 +41,19 @@ class Pokemon(@Transient var listener: PokemonChangeListener) {
 
             }
         }
+    }
+
+    fun updateBattleStats(list: List<MutableState<String>>) {
+        hp = try {Integer.parseInt(list[0].value)} catch (e: NumberFormatException) { hp }
+        will = try {Integer.parseInt(list[1].value)} catch (e: NumberFormatException) { will }
+        item = list[2].value
+        //status = Integer.parseInt(list[3].value) - ignore this field because it is a dropdown now
+        initiative = try {Integer.parseInt(list[4].value)} catch (e: NumberFormatException) { initiative }
+        accuracy = try {Integer.parseInt(list[5].value)} catch (e: NumberFormatException) { accuracy }
+        damage = try {Integer.parseInt(list[6].value)} catch (e: NumberFormatException) { damage }
+        evasion = try {Integer.parseInt(list[7].value)} catch (e: NumberFormatException) { evasion }
+        defense = try {Integer.parseInt(list[8].value)} catch (e: NumberFormatException) { defense }
+        specialDefense = try {Integer.parseInt(list[9].value)} catch (e: NumberFormatException) { specialDefense }
     }
 
     var profilePicture: String = ""
@@ -269,6 +283,67 @@ class Pokemon(@Transient var listener: PokemonChangeListener) {
             field = value
             saveData()
         }
+
+    var moves = mutableListOf("","","","")
+        set(value) {
+            field = value
+            saveData()
+        }
+
+    var hp = 0
+        set(value) {
+            field = value
+            saveData()
+        }
+
+    var will = 0
+        set(value) {
+            field = value
+            saveData()
+        }
+
+    var item = ""
+        set(value) {
+            field = value
+            saveData()
+        }
+
+    var status = PokemonStatus.Healthy
+        set(value) {
+            field = value
+            saveData()
+        }
+
+    var initiative = 0
+        set(value) {
+            field = value
+            saveData()
+        }
+
+    var accuracy = 0
+        set(value) {
+            field = value
+            saveData()
+        }
+
+    var damage = 0
+        set(value) {
+            field = value
+            saveData()
+        }
+
+    var defense = 0
+        set(value) {
+            field = value
+            saveData()
+        }
+
+    var specialDefense = 0
+        set(value) {
+            field = value
+            saveData()
+        }
+
 
     interface PokemonChangeListener {
         fun savePokemon()

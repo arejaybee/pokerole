@@ -205,6 +205,7 @@ private fun SkillsSection(modifier: Modifier) {
 
 @Composable
 private fun AttributeButtons(modifier: Modifier) {
+    val trainer = context.trainer.value
     var buttonIndex by remember { mutableStateOf(0) }
     var openDialog by remember { mutableStateOf(false) }
     if (openDialog) {
@@ -217,17 +218,17 @@ private fun AttributeButtons(modifier: Modifier) {
             }
         }
     }
+    val buttons = listOf(
+        stringResource(id = R.string.skills_fight) + "(${trainer.fight})",
+        stringResource(id = R.string.skills_survival)+ "(${trainer.survival})",
+        stringResource(id = R.string.skills_contest)+ "(${trainer.contest})",
+        stringResource(id = R.string.skills_knowledge)+ "(${trainer.knowledge})"
+    )
     LazyVerticalGrid(
         modifier = modifier,
         columns = GridCells.Fixed(4),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        val buttons = listOf(
-            R.string.skills_fight,
-            R.string.skills_survival,
-            R.string.skills_contest,
-            R.string.skills_knowledge
-        )
         items(4) { index ->
             ActionButton(
                 modifier = Modifier,
@@ -236,7 +237,7 @@ private fun AttributeButtons(modifier: Modifier) {
                     openDialog = true
                 }
             ) {
-                Text(text = stringResource(id = buttons[index]))
+                Text(text = buttons[index])
             }
         }
     }

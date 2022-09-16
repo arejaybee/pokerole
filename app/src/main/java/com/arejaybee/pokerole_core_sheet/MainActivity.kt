@@ -8,8 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import com.arejaybee.pokerole_core_sheet.pokemon.Pokemon
 import com.arejaybee.pokerole_core_sheet.trainer.Trainer
 import com.arejaybee.pokerole_core_sheet.views.MainContentView
+import com.arejaybee.pokerole_core_sheet.views.Page
 import com.arejaybee.pokerole_core_sheet.views.PokemonContentView
 import com.arejaybee.pokerole_core_sheet.views.context
+import com.arejaybee.pokerole_core_sheet.views.selectedPage
 
 class MainActivity : AppCompatActivity() {
     val trainer = mutableStateOf(Trainer(this))
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun loadTrainer() {
+    private fun loadTrainer() {
         try {
             trainer.value = Trainer.loadData(this)
             imageUtil.trainerImageUri.value = if(trainer.value.profilePicture.isEmpty()) null else Uri.parse(trainer.value.profilePicture)
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         context.selectedPokemon.value?.let {
+            selectedPage = Page.TRAINER_CARD
             context.selectedPokemon.value = null
         }?: run {
             super.onBackPressed()

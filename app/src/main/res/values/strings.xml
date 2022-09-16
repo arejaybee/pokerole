@@ -1,26 +1,10 @@
 <resources>
-    <string name="app_name">Pokerole Core Charactersheet</string>
+    <string name="app_name">Pokerole</string>
 
     <!--Main Page Strings-->
     <string name="nav_trainer_card">Trainer Card</string>
     <string name="nav_trainer_skills">Skills</string>
     <string name="nav_trainer_bag">Bag</string>
-
-    <!-- Pokemon Main Page-->
-    <string name="nav_pokemon_card">Details</string>
-    <string name="nav_pokemon_moves">Moves</string>
-    <string name="nav_pokemon_skills">Skills</string>
-    <string name="nav_pokemon_attributes">Attributes</string>
-    <string name="nav_pokemon_to_trainer">Return</string>
-
-    <!-- Pokemon Card -->
-    <string name="pokemon_card_name">Name</string>
-    <string name="pokemon_card_ability">Ability</string>
-    <string name="pokemon_card_nature">Nature</string>
-    <string name="pokemon_card_level">Level</string>
-    <string name="pokemon_card_experience">Experience</string>
-    <string name="pokemon_card_size">Size</string>
-    <string name="pokemon_card_weight">Weight</string>
 
     <!--Trainer Card-->
     <string name="trainer_card_name">Name</string>
@@ -39,6 +23,35 @@
     <string name="bag_potion">Potion</string>
     <string name="bag_super_potion">Super Potion</string>
     <string name="bag_hyper_potion">Hyper Potion</string>
+
+    <!-- Pokemon Main Page-->
+    <string name="nav_pokemon_card">Details</string>
+    <string name="nav_pokemon_moves">Battle</string>
+    <string name="nav_pokemon_skills">Skills</string>
+    <string name="nav_pokemon_attributes">Attributes</string>
+    <string name="nav_pokemon_to_trainer">Return</string>
+
+    <!-- Pokemon Card -->
+    <string name="pokemon_card_name">Name</string>
+    <string name="pokemon_card_ability">Ability</string>
+    <string name="pokemon_card_nature">Nature</string>
+    <string name="pokemon_card_level">Level</string>
+    <string name="pokemon_card_experience">Experience</string>
+    <string name="pokemon_card_size">Size</string>
+    <string name="pokemon_card_weight">Weight</string>
+
+    <!-- Pokemon Battle -->
+    <string name="pokemon_battle_hp">HP</string>
+    <string name="pokemon_battle_will">Will</string>
+    <string name="pokemon_battle_item">Item</string>
+    <string name="pokemon_battle_initiative">Initiative</string>
+    <string name="pokemon_battle_accuracy">Accuracy</string>
+    <string name="pokemon_battle_evasion">Evasion</string>
+    <string name="pokemon_battle_damage">Damage</string>
+    <string name="pokemon_battle_defense">Defense</string>
+    <string name="pokemon_battle_special_defense">Sp. Defense</string>
+    <string name="pokemon_battle_status">Status</string>
+    <string name="pokemon_battle_move">Move</string>
 
     <!--Skills-->
     <string name="skills_other_skill">Other Skills</string>
