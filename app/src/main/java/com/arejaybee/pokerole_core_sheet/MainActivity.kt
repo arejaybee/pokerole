@@ -3,7 +3,6 @@ package com.arejaybee.pokerole_core_sheet
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.mutableStateOf
 import com.arejaybee.pokerole_core_sheet.pokemon.Pokemon
@@ -13,32 +12,39 @@ import com.arejaybee.pokerole_core_sheet.views.PokemonContentView
 import com.arejaybee.pokerole_core_sheet.views.context
 
 class MainActivity : AppCompatActivity() {
-
-    val imageUriState = mutableStateOf<Uri?>(null)
-    val activityPageFlag = mutableStateOf<Pokemon?>(null)
-
-    val selectImageLauncher = registerForActivityResult(GetContent()) {
-        imageUriState.value = it
-        trainer.profilePicture = it.toString()
-    }
-    lateinit var trainer: Trainer
+    val trainer = mutableStateOf(Trainer(this))
+    val selectedPokemon = mutableStateOf<Pokemon?>(null)
+    val imageUtil = ImageUtility(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        trainer = try {
-            Trainer.loadData(this)
-        } catch (e: Exception) {
-            Trainer(this)
-        }
-        imageUriState.value = if(trainer.profilePicture.isEmpty()) null else Uri.parse(trainer.profilePicture)
+        loadTrainer()
         setContent {
-            activityPageFlag.value?.let {
-                PokemonContentView(this, it)
+            selectedPokemon.value?.let {
+                PokemonContentView(this)
             }?: MainContentView(this)
         }
     }
 
-    fun GoToPokemonView(pokemon: Pokemon) {
-        context.activityPageFlag.value = pokemon
+    fun loadTrainer() {
+        try {
+            trainer.value = Trainer.loadData(this)
+            imageUtil.trainerImageUri.value = if(trainer.value.profilePicture.isEmpty()) null else Uri.parse(trainer.value.profilePicture)
+        } catch (e: Exception) {
+            trainer.value = Trainer(this)
+            imageUtil.trainerImageUri.value = if(trainer.value.profilePicture.isEmpty()) null else Uri.parse(trainer.value.profilePicture)
+        }
+    }
+
+    fun goToPokemonView(pokemon: Pokemon) {
+        context.selectedPokemon.value = pokemon
+    }
+
+    override fun onBackPressed() {
+        context.selectedPokemon.value?.let {
+            context.selectedPokemon.value = null
+        }?: run {
+            super.onBackPressed()
+        }
     }
 }

@@ -12,8 +12,6 @@ import androidx.compose.ui.unit.dp
 
 object Utility {
 
-
-
     @Composable
     fun getDW(percent: Float): Dp {
         return LocalConfiguration.current.screenWidthDp.dp.times(percent)

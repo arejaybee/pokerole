@@ -121,16 +121,16 @@ fun PocketActionButton(
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    val list = if (mainBag) context.trainer.bag.mainItems else context.trainer.bag.battleItems
+                    val list = if (mainBag) context.trainer.value.bag.mainItems else context.trainer.value.bag.battleItems
                     itemsIndexed(list) { index, item ->
                         var inputText by remember { mutableStateOf(item) }
                         TextField(
                             value = inputText,
                             modifier = Modifier.padding(10.dp),
                             onValueChange = {
-                                if (mainBag) context.trainer.bag.mainItems[index] =
-                                    it else context.trainer.bag.battleItems[index] = it
-                                context.trainer.saveBagUpdates()
+                                if (mainBag) context.trainer.value.bag.mainItems[index] =
+                                    it else context.trainer.value.bag.battleItems[index] = it
+                                context.trainer.value.saveBagUpdates()
                                 inputText = it
                             }
                         )
@@ -163,32 +163,32 @@ fun PotionPocket(modifier: Modifier) {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
-    val potionType = Potion.getPotionByType(context.trainer.bag, potionName)
+    val potionType = Potion.getPotionByType(context.trainer.value.bag, potionName)
     var potionCount by remember {
         mutableStateOf(
-            context.trainer.bag.getPotionList(potionName)?.size?.toString() ?: "0"
+            context.trainer.value.bag.getPotionList(potionName)?.size?.toString() ?: "0"
         )
     }
     var ActionButtonPress by remember { mutableStateOf(true) }
     var potionUses by remember {
         mutableStateOf(
-            context.trainer.bag.getPotionList(potionName)?.firstOrNull()?.uses ?: 0
+            context.trainer.value.bag.getPotionList(potionName)?.firstOrNull()?.uses ?: 0
         )
     }
     Row(modifier = modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically)
     {
         ActionButton(modifier = Modifier.weight(0.25f), onClick = {
-            val potion = context.trainer.bag.getPotionList(potionName).firstOrNull()
+            val potion = context.trainer.value.bag.getPotionList(potionName).firstOrNull()
             potion?.let {
                 potion.uses--
                 potionUses = potion.uses
                 if (potion.uses == 0) {
-                    context.trainer.bag.popFirstPotion(potionName)
+                    context.trainer.value.bag.popFirstPotion(potionName)
                 }
-                potionCount = context.trainer.bag.getPotionList(potionName).size.toString()
+                potionCount = context.trainer.value.bag.getPotionList(potionName).size.toString()
             }
-            potionUses = if (context.trainer.bag.getPotionList(potionName).isEmpty()) 0
-            else context.trainer.bag.getPotionList(potionName).firstOrNull()?.uses ?: potionType.maxUses
+            potionUses = if (context.trainer.value.bag.getPotionList(potionName).isEmpty()) 0
+            else context.trainer.value.bag.getPotionList(potionName).firstOrNull()?.uses ?: potionType.maxUses
             ActionButtonPress = !ActionButtonPress
         }) {
             Text(textAlign = TextAlign.Center, text = potionName.name.replace("_", " "))
@@ -206,21 +206,21 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
                 val count = it
                 try {
                     val newListSize = Integer.parseInt(count)
-                    val topPotionUses = context.trainer.bag.getPotionList(potionName).firstOrNull()?.uses
+                    val topPotionUses = context.trainer.value.bag.getPotionList(potionName).firstOrNull()?.uses
                         ?: potionType.maxUses
-                    context.trainer.bag.clearPotions(potionName)
+                    context.trainer.value.bag.clearPotions(potionName)
                     for (i in 0 until newListSize) {
-                        context.trainer.bag.addPotion(potionName)
+                        context.trainer.value.bag.addPotion(potionName)
                     }
-                    if (context.trainer.bag.getPotionList(potionName).size > 0) {
-                        context.trainer.bag.getPotionList(potionName).first().uses = topPotionUses
+                    if (context.trainer.value.bag.getPotionList(potionName).size > 0) {
+                        context.trainer.value.bag.getPotionList(potionName).first().uses = topPotionUses
                     }
                 } catch (ex: NumberFormatException) {
 
                 }
                 potionCount = count
-                potionUses = if (context.trainer.bag.getPotionList(potionName).isEmpty()) 0
-                else context.trainer.bag.getPotionList(potionName).firstOrNull()?.uses ?: potionType.maxUses
+                potionUses = if (context.trainer.value.bag.getPotionList(potionName).isEmpty()) 0
+                else context.trainer.value.bag.getPotionList(potionName).firstOrNull()?.uses ?: potionType.maxUses
             })
         val maxUses = 7.coerceAtMost(potionType.maxUses)
         Column(modifier = Modifier.weight(0.55f), horizontalAlignment = Alignment.Start) {

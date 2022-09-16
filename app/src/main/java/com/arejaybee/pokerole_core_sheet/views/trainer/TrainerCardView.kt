@@ -1,22 +1,19 @@
 package com.arejaybee.pokerole_core_sheet.views.trainer
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
@@ -26,24 +23,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.arejaybee.pokerole_core_sheet.R
-import com.arejaybee.pokerole_core_sheet.R.color
-import com.arejaybee.pokerole_core_sheet.R.string
 import com.arejaybee.pokerole_core_sheet.trainer.Nature
 import com.arejaybee.pokerole_core_sheet.views.ActionButton
+import com.arejaybee.pokerole_core_sheet.views.GlideImage
+import com.arejaybee.pokerole_core_sheet.views.LabeledButton
+import com.arejaybee.pokerole_core_sheet.views.NatureDropdown
 import com.arejaybee.pokerole_core_sheet.views.context
 import com.arejaybee.pokerole_core_sheet.views.roundedMod
-import com.skydoves.landscapist.glide.GlideImage
 
 
 @Composable
@@ -57,16 +51,11 @@ fun TrainerCard(modifier: Modifier) {
         IconButton(
             modifier = Modifier
                 .weight(0.4f)
-                .fillMaxHeight()
-                .padding(20.dp),
-            onClick = { context.selectImageLauncher.launch("image/*")}
+                .padding(end = 10.dp, bottom = 10.dp)
+                .fillMaxHeight(),
+            onClick = { context.imageUtil.selectTrainerImage.launch("image/*")}
         ) {
-            context.imageUriState.value?.let {
-                GlideImage(imageModel = it)
-            }?: Image(
-                painter = painterResource(id = R.drawable.ic_playerplaceholder),
-                contentDescription = "Player Portrait"
-            )
+            GlideImage(context.imageUtil.trainerImageUri.value, R.drawable.ic_playerplaceholder)
         }
         Column(modifier = Modifier.weight(0.6f), verticalArrangement = Arrangement.SpaceEvenly) {
             EditableGridRow(modifier = Modifier.weight(0.75f))
@@ -77,12 +66,12 @@ fun TrainerCard(modifier: Modifier) {
 
 @Composable
 fun EditableGridRow(modifier: Modifier) {
-    var inputName by remember { mutableStateOf(context.trainer.name) }
-    var inputAge by remember { mutableStateOf(context.trainer.age) }
-    var inputMoney by remember { mutableStateOf(context.trainer.money) }
-    var inputHp by remember { mutableStateOf(context.trainer.curHp.toString()) }
-    var inputWill by remember { mutableStateOf(context.trainer.will.toString()) }
-    var inputExp by remember { mutableStateOf(context.trainer.experience.toString()) }
+    var inputName by remember { mutableStateOf(context.trainer.value.name) }
+    var inputAge by remember { mutableStateOf(context.trainer.value.age) }
+    var inputMoney by remember { mutableStateOf(context.trainer.value.money) }
+    var inputHp by remember { mutableStateOf(context.trainer.value.curHp.toString()) }
+    var inputWill by remember { mutableStateOf(context.trainer.value.will.toString()) }
+    var inputExp by remember { mutableStateOf(context.trainer.value.experience.toString()) }
     Box(modifier) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
@@ -97,8 +86,8 @@ fun EditableGridRow(modifier: Modifier) {
                     value = inputName,
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                     onValueChange = {
-                        context.trainer.name = it
-                        inputName = context.trainer.name
+                        context.trainer.value.name = it
+                        inputName = context.trainer.value.name
                     }
                 )
             }
@@ -109,8 +98,8 @@ fun EditableGridRow(modifier: Modifier) {
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                     label = { Text(stringResource(id = R.string.trainer_card_age)) },
                     onValueChange = {
-                        context.trainer.age = it
-                        inputAge = context.trainer.age
+                        context.trainer.value.age = it
+                        inputAge = context.trainer.value.age
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
@@ -122,7 +111,7 @@ fun EditableGridRow(modifier: Modifier) {
                     label = { Text(stringResource(id = R.string.trainer_card_money)) },
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                     onValueChange = {
-                        context.trainer.money = it
+                        context.trainer.value.money = it
                         inputMoney = it
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
@@ -136,8 +125,8 @@ fun EditableGridRow(modifier: Modifier) {
                     label = { Text(stringResource(id = R.string.trainer_card_hp)) },
                     onValueChange = {
                         try {
-                            context.trainer.curHp = Integer.parseInt(it)
-                            inputHp = context.trainer.curHp.toString()
+                            context.trainer.value.curHp = Integer.parseInt(it)
+                            inputHp = context.trainer.value.curHp.toString()
                         } catch (e: Exception) {
                             inputHp = ""
                         }
@@ -153,8 +142,8 @@ fun EditableGridRow(modifier: Modifier) {
                     label = { Text(stringResource(id = R.string.trainer_card_will)) },
                     onValueChange = {
                         try {
-                            context.trainer.will = Integer.parseInt(it)
-                            inputWill = context.trainer.will.toString()
+                            context.trainer.value.will = Integer.parseInt(it)
+                            inputWill = context.trainer.value.will.toString()
                         } catch (e: Exception) {
                             inputWill = ""
                         }
@@ -170,8 +159,8 @@ fun EditableGridRow(modifier: Modifier) {
                     label = { Text(stringResource(id = R.string.trainer_card_experience)) },
                     onValueChange = {
                         try {
-                            context.trainer.experience = Integer.parseInt(it)
-                            inputExp = context.trainer.experience.toString()
+                            context.trainer.value.experience = Integer.parseInt(it)
+                            inputExp = context.trainer.value.experience.toString()
                         } catch (e: Exception) {
                             inputExp = ""
                         }
@@ -187,34 +176,11 @@ fun EditableGridRow(modifier: Modifier) {
 @Composable
 fun RowThree(modifier: Modifier) {
     Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-        var natureExpanded by remember { mutableStateOf(false) }
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = roundedMod
-                .clickable { natureExpanded = true }
-                .weight(1f)
-                .fillMaxHeight()
-                .background(color = colorResource(id = color.button_primary))
+        NatureDropdown(
+            modifier = Modifier.weight(1f),
+            context.trainer.value.nature.name
         ) {
-            Text(
-                text = context.trainer.nature.name,
-                textAlign = TextAlign.Center
-            )
-            DropdownMenu(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .align(Alignment.Center),
-                expanded = natureExpanded,
-                onDismissRequest = { natureExpanded = false }) {
-                Nature.values().forEach { nature ->
-                    DropdownMenuItem(onClick = {
-                        context.trainer.nature = Nature.valueOf(nature.name)
-                        natureExpanded = false
-                    }) {
-                        Text(nature.name)
-                    }
-                }
-            }
+            context.trainer.value.nature = Nature.valueOf(it.name)
         }
         ConceptButton(Modifier.weight(1f))
     }
@@ -227,12 +193,10 @@ fun ConceptButton(modifier: Modifier) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         var openDialog by remember { mutableStateOf(false) }
-        val conceptSummary =
-            context.trainer.concept.summary.ifEmpty { stringResource(id = string.trainer_card_concept) }
-        var conceptTitle by remember { mutableStateOf(conceptSummary) }
+        var conceptTitle by remember { mutableStateOf(context.trainer.value.concept.summary) }
         if (openDialog) {
             Dialog(onDismissRequest = { openDialog = false }) {
-                var conceptDetails by remember { mutableStateOf(context.trainer.concept.details) }
+                var conceptDetails by remember { mutableStateOf(context.trainer.value.concept.details) }
                 LazyColumn(
                     modifier = Modifier
                         .background(Color.White)
@@ -243,8 +207,8 @@ fun ConceptButton(modifier: Modifier) {
                             value = conceptTitle,
                             label = { Text(stringResource(id = R.string.trainer_card_concept_summary)) },
                             onValueChange = {
-                                context.trainer.concept.summary = it
-                                context.trainer.saveData()
+                                context.trainer.value.concept.summary = it
+                                context.trainer.value.saveData()
                                 conceptTitle = it
                             }
                         )
@@ -257,8 +221,8 @@ fun ConceptButton(modifier: Modifier) {
                             value = conceptDetails,
                             label = { Text(stringResource(id = R.string.trainer_card_concept_details)) },
                             onValueChange = {
-                                context.trainer.concept.details = it
-                                context.trainer.saveData()
+                                context.trainer.value.concept.details = it
+                                context.trainer.value.saveData()
                                 conceptDetails = it
                             }
                         )
@@ -266,15 +230,28 @@ fun ConceptButton(modifier: Modifier) {
                 }
             }
         }
-        ActionButton(
-            modifier = roundedMod
-                .weight(1f)
-                .fillMaxHeight(),
-            onClick = {
-                openDialog = true
-            },
-        ) {
-            Text(conceptTitle)
+
+        if(conceptTitle.isEmpty()) {
+            ActionButton(
+                modifier = roundedMod
+                    .weight(1f)
+                    .fillMaxSize(),
+                onClick = {
+                    openDialog = true
+                },
+            ) {
+                Text(stringResource(id = R.string.trainer_card_concept))
+            }
+        } else {
+            LabeledButton(
+                modifier = Modifier.weight(1f),
+                label = stringResource(id = R.string.trainer_card_concept),
+                onClick = {
+                    openDialog = true
+                },
+            ) {
+                Text(conceptTitle)
+            }
         }
     }
 }

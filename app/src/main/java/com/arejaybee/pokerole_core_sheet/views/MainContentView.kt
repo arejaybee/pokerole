@@ -1,6 +1,5 @@
 package com.arejaybee.pokerole_core_sheet.views
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,9 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,7 +26,7 @@ import com.arejaybee.pokerole_core_sheet.MainActivity
 import com.arejaybee.pokerole_core_sheet.R
 import com.arejaybee.pokerole_core_sheet.R.string
 import com.arejaybee.pokerole_core_sheet.views.trainer.Bag
-import com.arejaybee.pokerole_core_sheet.views.trainer.Skill
+import com.arejaybee.pokerole_core_sheet.views.trainer.TrainerSkill
 import com.arejaybee.pokerole_core_sheet.views.trainer.TrainerCard
 
 enum class Page { TRAINER_CARD, SKILLS, BAG, POKEMON }
@@ -49,7 +46,7 @@ fun MainContentView(newContext: MainActivity) {
                 val pageModifier = Modifier.weight(0.85f)
                 when (selectedPage) {
                     Page.TRAINER_CARD -> TrainerCard(modifier = pageModifier)
-                    Page.SKILLS -> Skill(modifier = pageModifier)
+                    Page.SKILLS -> TrainerSkill(modifier = pageModifier)
                     Page.BAG -> Bag(modifier = pageModifier)
                     else -> Text("")
                 }
@@ -90,15 +87,14 @@ fun NavButtons(modifier: Modifier = Modifier) {
 @Composable
 fun PokemonGrid(modifier: Modifier) {
     Row(modifier = modifier) {
-        context.trainer.pokemon.forEach { pokemon ->
-            Image(
-                painterResource(id = R.drawable.ic_pokeball),
-                contentDescription = "",
-                contentScale = ContentScale.Inside,
+        context.trainer.value.pokemon.forEach { pokemon ->
+            GlideImage(
+                pokemon.profilePicture,
+                R.drawable.ic_pokeball,
                 modifier = Modifier
                     .weight(1f)
                     .clickable {
-                        context.GoToPokemonView(pokemon)
+                        context.goToPokemonView(pokemon)
                     }
             )
             Spacer(modifier = Modifier.padding(10.dp))

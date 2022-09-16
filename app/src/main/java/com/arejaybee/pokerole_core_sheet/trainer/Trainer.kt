@@ -4,11 +4,17 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.arejaybee.pokerole_core_sheet.pokemon.Pokemon
+import com.arejaybee.pokerole_core_sheet.pokemon.Pokemon.PokemonChangeListener
+import com.arejaybee.pokerole_core_sheet.views.SkillDialogType
+import com.arejaybee.pokerole_core_sheet.views.SkillDialogType.TrainerContest
+import com.arejaybee.pokerole_core_sheet.views.SkillDialogType.TrainerFight
+import com.arejaybee.pokerole_core_sheet.views.SkillDialogType.TrainerKnowledge
+import com.arejaybee.pokerole_core_sheet.views.SkillDialogType.TrainerSurvival
 import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 
 
-class Trainer(@Transient private  var context: Context) : BagUpdateListener {
+class Trainer(@Transient private  var context: Context) : BagUpdateListener, PokemonChangeListener {
 
     companion object {
         const val SHARED_PREFS = "shared_pref"
@@ -20,6 +26,9 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener {
             trainer.context = context
             trainer.bag.listener = trainer
             trainer.bag.loadFromJson()
+            trainer.pokemon.forEach {
+                it.listener = trainer
+            }
             return trainer
         }
     }
@@ -31,6 +40,42 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener {
         val json = Gson().toJson(this)
         editor.putString("myCharacter", json)
         editor.apply()
+    }
+    
+    fun updateSkills(list: List<Int>, type: SkillDialogType) {
+        when(type) {
+            TrainerFight -> {
+                fight = list[0] 
+                brawl = list[1]
+                tThrow = list[2]
+                evasion = list[3]
+                weapons = list[4]
+            }
+            TrainerSurvival -> {
+                survival= list[0]
+                alert= list[1]
+                atheletic= list[2]
+                natural= list[3]
+                stealth= list[4]
+            }
+            TrainerContest -> {
+                beauty= list[0]
+                empathy= list[1]
+                etiquette= list[2]
+                intimidate= list[3]
+                perform= list[4]
+            }
+            TrainerKnowledge -> {
+                knowledge= list[0]
+                crafts= list[1]
+                lore= list[2]
+                medicine= list[3]
+                science= list[4]
+            }
+            else -> {
+
+            }
+        }
     }
 
     var profilePicture: String = ""
@@ -47,7 +92,7 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener {
             saveData()
         }
 
-    var nature = Nature.NATURE
+    var nature = Nature.NONE
         set(value) {
             field = value
             saveData()
@@ -101,7 +146,14 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener {
             saveData()
         }
 
-    var pokemon = listOf(Pokemon(), Pokemon(), Pokemon(), Pokemon(), Pokemon(), Pokemon())
+    var pokemon = listOf(
+        Pokemon(this),
+        Pokemon(this),
+        Pokemon(this),
+        Pokemon(this),
+        Pokemon(this),
+        Pokemon(this)
+    )
         set(value) {
             field = value
             saveData()
@@ -290,6 +342,10 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener {
         }
 
     override fun saveBagUpdates() {
+        saveData()
+    }
+
+    override fun savePokemon() {
         saveData()
     }
 }

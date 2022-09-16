@@ -1,7 +1,7 @@
 package com.arejaybee.pokerole_core_sheet.trainer
 
 enum class Nature {
-    NATURE,
+    NONE,
     ADAMANT,
     BASHFUL,
     BOLD,
