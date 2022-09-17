@@ -177,7 +177,7 @@ fun RowThree(modifier: Modifier) {
     Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         NatureDropdown(
             modifier = Modifier.weight(1f),
-            context.trainer.value.nature.name
+            selection = context.trainer.value.nature.name
         ) {
             context.trainer.value.nature = Nature.valueOf(it.name)
         }

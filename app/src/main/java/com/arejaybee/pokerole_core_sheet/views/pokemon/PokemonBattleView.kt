@@ -31,8 +31,8 @@ fun PokemonBattleView(modifier: Modifier) {
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically)
     ) {
-        StatSection(Modifier.weight(1f))
-        MoveSection(Modifier.weight(2f))
+        StatSection(Modifier.weight(0.4f))
+        MoveSection(Modifier.weight(0.6f))
     }
 }
 
@@ -76,6 +76,7 @@ fun StatSection(modifier: Modifier) {
             if (index == 3) {
                 StatusDropdown(
                     modifier = Modifier.weight(1f),
+                    fill = false,
                     selection = pokemon.status.name.replace("_", " ")
                 ) {
                     pokemon.status = PokemonStatus.valueOf(it.name)
@@ -86,7 +87,7 @@ fun StatSection(modifier: Modifier) {
                     label = { Text(stringResource(id = stringList[index])) },
                     value = input.value,
                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardOptions = if(index == 2) KeyboardOptions(keyboardType = KeyboardType.Text) else KeyboardOptions(keyboardType = KeyboardType.Number),
                     onValueChange = {
                         try {
                             input.value = it

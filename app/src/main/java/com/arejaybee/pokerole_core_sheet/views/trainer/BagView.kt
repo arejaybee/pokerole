@@ -51,7 +51,7 @@ fun Bag(modifier: Modifier) {
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Row(modifier = Modifier.weight(0.8f), horizontalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterHorizontally)) {
+        Row(modifier = Modifier.weight(0.9f), horizontalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterHorizontally)) {
             PotionPocket(Modifier.weight(0.7f))
             Column(
                 modifier = Modifier.weight(0.3f),
@@ -76,8 +76,8 @@ fun Bag(modifier: Modifier) {
                 }
             }
         }
-        Spacer(Modifier.padding(20.dp))
-        BadgeCase(Modifier.weight(0.2f).padding(horizontal = 30.dp))
+        Spacer(Modifier.padding(5.dp))
+        BadgeCase(Modifier.weight(0.1f).padding(horizontal = 30.dp))
     }
 }
 

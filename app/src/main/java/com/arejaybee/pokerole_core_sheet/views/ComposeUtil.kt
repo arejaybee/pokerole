@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells.Fixed
@@ -95,17 +94,17 @@ fun GlideImage(uri: Uri?, defaultImage: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun LabeledButton(modifier: Modifier, label: String, onClick: () -> Unit, content: @Composable BoxScope.() -> Unit) {
+fun LabeledButton(modifier: Modifier, fill: Boolean = true, label: String, onClick: () -> Unit, content: @Composable BoxScope.() -> Unit) {
     Column(
         roundedMod
             .defaultMinSize(
                 minWidth = TextFieldDefaults.MinWidth,
                 minHeight = TextFieldDefaults.MinHeight
             )
-            .fillMaxSize()
             .clickable(onClick = onClick)
             .background(color = colorResource(id = R.color.button_primary))
             .then(modifier)
+            .then(if(fill) Modifier.fillMaxSize() else Modifier)
     ) {
         Text(
             text = label,
@@ -114,7 +113,7 @@ fun LabeledButton(modifier: Modifier, label: String, onClick: () -> Unit, conten
         )
         Box(
             modifier = Modifier.align(Alignment.CenterHorizontally)
-                .fillMaxSize(),
+                .then(if(fill) Modifier.fillMaxSize() else Modifier),
             contentAlignment = Alignment.Center
         ) {
             content()
@@ -127,7 +126,6 @@ fun <T> Dropdown(modifier: Modifier, selection: MutableState<String>, list: Arra
     DropdownMenu(
         modifier = modifier.then(
             Modifier
-                .fillMaxHeight()
                 .clickable { expanded.value = true }
         ),
         expanded = expanded.value,
@@ -147,11 +145,12 @@ fun <T> Dropdown(modifier: Modifier, selection: MutableState<String>, list: Arra
 }
 
 @Composable
-fun NatureDropdown(modifier: Modifier = Modifier, selection: String, onSelect: (selection: Nature) -> Unit) {
+fun NatureDropdown(modifier: Modifier = Modifier, fill: Boolean = true, selection: String, onSelect: (selection: Nature) -> Unit) {
     val expanded = remember { mutableStateOf(false) }
     val boxName = remember { mutableStateOf(selection) }
     LabeledButton(
         modifier = modifier,
+        fill = fill,
         label = stringResource(id = R.string.dropdown_label_nature),
         onClick = {
             expanded.value = true
@@ -174,11 +173,12 @@ fun NatureDropdown(modifier: Modifier = Modifier, selection: String, onSelect: (
 }
 
 @Composable
-fun TypeDropdown(modifier: Modifier = Modifier, selection: String, onSelect: (selection: PokemonType) -> Unit) {
+fun TypeDropdown(modifier: Modifier = Modifier,  fill: Boolean = true, selection: String, onSelect: (selection: PokemonType) -> Unit) {
     val expanded = remember { mutableStateOf(false) }
     val boxName = remember { mutableStateOf(selection) }
     LabeledButton(
         modifier = modifier,
+        fill = fill,
         onClick = {
             expanded.value = true
         },
@@ -201,27 +201,28 @@ fun TypeDropdown(modifier: Modifier = Modifier, selection: String, onSelect: (se
 }
 
 @Composable
-fun StatusDropdown(modifier: Modifier = Modifier, selection: String, onSelect: (selection: PokemonStatus) -> Unit) {
+fun StatusDropdown(modifier: Modifier = Modifier,  fill: Boolean = true, selection: String, onSelect: (selection: PokemonStatus) -> Unit) {
     val expanded = remember { mutableStateOf(false) }
     val boxName = remember { mutableStateOf(selection) }
     LabeledButton(
         modifier = modifier,
+        fill = fill,
         onClick = {
             expanded.value = true
         },
-        label = stringResource(id = R.string.dropdown_label_type),
+        label = stringResource(id = R.string.pokemon_battle_status),
         content = {
             Text(
                 text = boxName.value.replace("_"," "),
                 textAlign = TextAlign.Center
             )
-            Dropdown(
+            /*Dropdown(
                 modifier = Modifier.align(Alignment.Center),
                 selection = boxName,
                 list = PokemonStatus.values(),
                 expanded = expanded,
                 onSelect = onSelect
-            )
+            )*/
         }
     )
 }
