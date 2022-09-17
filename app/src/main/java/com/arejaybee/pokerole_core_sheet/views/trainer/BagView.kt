@@ -16,7 +16,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -43,6 +43,7 @@ import com.arejaybee.pokerole_core_sheet.trainer.POTION_ENUM.Hyper_Potion
 import com.arejaybee.pokerole_core_sheet.trainer.POTION_ENUM.Super_Potion
 import com.arejaybee.pokerole_core_sheet.trainer.Potion
 import com.arejaybee.pokerole_core_sheet.views.ActionButton
+import com.arejaybee.pokerole_core_sheet.views.GlideIcon
 import com.arejaybee.pokerole_core_sheet.views.context
 
 @Composable
@@ -74,10 +75,9 @@ fun Bag(modifier: Modifier) {
                 ) {
                     Text(text = stringResource(id = string.bag_small_pocket))
                 }
+                BadgeCase(Modifier.weight(1f))
             }
         }
-        Spacer(Modifier.padding(5.dp))
-        BadgeCase(Modifier.weight(0.1f).padding(horizontal = 30.dp))
     }
 }
 
@@ -240,14 +240,71 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
 
 @Composable
 fun BadgeCase(modifier: Modifier) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(text = "Badges: ")
-        for (i in 0 until 8) {
-            Icon(Icons.Rounded.Lock, contentDescription = "Player Badge")
+
+    val openDialog = remember { mutableStateOf(false) }
+    if (openDialog.value) {
+        Dialog(onDismissRequest = { openDialog.value = false }) {
+            Column(
+                modifier = Modifier
+                    .background(Color.White)
+            ) {
+                val title = string.bag_badge_case
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    text = stringResource(id = title),
+                    textAlign = TextAlign.Center
+                )
+                Column(
+                    Modifier
+                        .padding(20.dp)
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.SpaceEvenly) {
+                    Row(
+                        modifier= Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        context.trainer.value.badges.subList(0,4).forEachIndexed { index, badge ->
+                            BadgeIcon(modifier = Modifier.weight(1f), index)
+                        }
+                    }
+                    Row(
+                        Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        context.trainer.value.badges.subList(4,8).forEachIndexed { index, badge ->
+                            BadgeIcon(modifier = Modifier.weight(1f), index+4)
+                        }
+                    }
+                }
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(4),
+                ) {
+
+                }
+            }
         }
+    }
+    ActionButton(
+        modifier = modifier,
+        onClick = {
+            openDialog.value = !openDialog.value
+        }
+    ) {
+        Text(text = stringResource(id = string.bag_badge_case))
+    }
+}
+
+@Composable
+fun BadgeIcon(modifier: Modifier, index:Int) {
+    IconButton(
+        modifier = modifier.padding(end = 10.dp, bottom = 10.dp),
+        onClick = {
+            context.imageUtil.selectedBadge = index
+            context.imageUtil.selectBadgeImage.launch("image/*")
+        }
+    ) {
+        GlideIcon(context.imageUtil.badgeImageUri[index].value, Icons.Rounded.Lock)
     }
 }

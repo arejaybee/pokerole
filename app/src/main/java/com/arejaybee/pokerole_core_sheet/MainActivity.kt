@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             trainer.value = Trainer(this)
             imageUtil.trainerImageUri.value = if(trainer.value.profilePicture.isEmpty()) null else Uri.parse(trainer.value.profilePicture)
         }
+        imageUtil.updateBadgeImages()
     }
 
     fun goToPokemonView(pokemon: Pokemon) {

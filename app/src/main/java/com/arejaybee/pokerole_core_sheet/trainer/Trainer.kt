@@ -59,7 +59,7 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener, Pok
                 stealth= list[4]
             }
             TrainerContest -> {
-                beauty= list[0]
+                contest= list[0]
                 empathy= list[1]
                 etiquette= list[2]
                 intimidate= list[3]
@@ -84,6 +84,19 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener, Pok
         saveData()
     }
 
+    var badges = mutableListOf("","","","","","","","")
+        get() {
+            return if(field == null)  {
+                field = mutableListOf("","","","","","","","")
+                field
+            }
+            else
+                field
+        }
+        set(value) {
+            field = value
+            saveData()
+        }
 
     //Card fields
     var name = ""

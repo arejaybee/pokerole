@@ -23,6 +23,7 @@
     <string name="bag_potion">Potion</string>
     <string name="bag_super_potion">Super Potion</string>
     <string name="bag_hyper_potion">Hyper Potion</string>
+    <string name="bag_badge_case">Badge Case</string>
 
     <!-- Pokemon Main Page-->
     <string name="nav_pokemon_card">Detalles</string>

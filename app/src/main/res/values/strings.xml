@@ -23,12 +23,12 @@
     <string name="bag_potion">Potion</string>
     <string name="bag_super_potion">Super Potion</string>
     <string name="bag_hyper_potion">Hyper Potion</string>
+    <string name="bag_badge_case">Badge Case</string>
 
     <!-- Pokemon Main Page-->
     <string name="nav_pokemon_card">Details</string>
     <string name="nav_pokemon_moves">Battle</string>
     <string name="nav_pokemon_skills">Skills</string>
-    <string name="nav_pokemon_attributes">Attributes</string>
     <string name="nav_pokemon_to_trainer">Return</string>
 
     <!-- Pokemon Card -->

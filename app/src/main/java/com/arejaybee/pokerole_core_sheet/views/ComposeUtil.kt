@@ -19,6 +19,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -30,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -90,6 +92,15 @@ fun GlideImage(uri: Uri?, defaultImage: Int, modifier: Modifier = Modifier) {
             contentDescription = "",
             modifier = modifier
         )
+    }
+}
+
+@Composable
+fun GlideIcon(uri: Uri?, defaultImage: ImageVector, modifier: Modifier = Modifier) {
+    uri?.let {
+        com.skydoves.landscapist.glide.GlideImage(imageModel = it, modifier = modifier, imageOptions = ImageOptions(contentScale = ContentScale.Fit))
+    } ?: run {
+        Icon(defaultImage, contentDescription = "Player Badge")
     }
 }
 
