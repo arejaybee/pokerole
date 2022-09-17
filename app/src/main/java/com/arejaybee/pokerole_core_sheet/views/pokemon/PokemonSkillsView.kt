@@ -2,10 +2,8 @@ package com.arejaybee.pokerole_core_sheet.views.pokemon
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
@@ -35,11 +33,10 @@ import com.arejaybee.pokerole_core_sheet.views.roundedMod
 @Composable
 fun PokemonSkill(modifier: Modifier) {
     Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.Center
     ) {
-        SkillsSection(modifier = Modifier.weight(0.55f))
-        AttributeButtons(modifier = Modifier.weight(0.45f))
+        SkillsSection(modifier = Modifier.weight(1f))
+        AttributeButtons(modifier = Modifier.weight(1f))
     }
 }
 
@@ -56,183 +53,168 @@ private fun SkillsSection(modifier: Modifier) {
     var inputBeauty by remember { mutableStateOf(context.selectedPokemon.value?.beauty.toString()) }
     var inputCute by remember { mutableStateOf(context.selectedPokemon.value?.cute.toString()) }
     var inputSmart by remember { mutableStateOf(context.selectedPokemon.value?.smart.toString()) }
-    LazyVerticalGrid(
-        modifier = modifier,
-        columns = GridCells.Fixed(5),
-        horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
-        verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Top)
-    ) {
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_strength)) },
-                value = inputStrength,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.strength = Integer.parseInt(it)
-                        inputStrength = context.selectedPokemon.value?.strength.toString()
-                    } catch (e: Exception) {
-                        inputStrength = ""
-                    }
-                }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_dexterity)) },
-                value = inputDexterity,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.dexterity = Integer.parseInt(it)
-                        inputDexterity = context.selectedPokemon.value?.dexterity.toString()
-                    } catch (e: Exception) {
-                        inputDexterity = ""
-                    }
-                }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_vitality)) },
-                value = inputVitality,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.vitality = Integer.parseInt(it)
-                        inputVitality = context.selectedPokemon.value?.vitality.toString()
-                    } catch (e: Exception) {
-                        inputVitality = ""
-                    }
-                }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_special)) },
-                value = inputSpecial,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.special = Integer.parseInt(it)
-                        inputSpecial = context.selectedPokemon.value?.special.toString()
-                    } catch (e: Exception) {
-                        inputSpecial = ""
-                    }
-                }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_insight)) },
-                value = inputInsight,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.insight = Integer.parseInt(it)
-                        inputInsight = context.selectedPokemon.value?.insight.toString()
-                    } catch (e: Exception) {
-                        inputInsight = ""
-                    }
-                }
-            )
-        }
 
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_tough)) },
-                value = inputTough,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.tough = Integer.parseInt(it)
-                        inputTough = context.selectedPokemon.value?.tough.toString()
-                    } catch (e: Exception) {
-                        inputTough = ""
-                    }
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)
+    ) {
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_strength)) },
+            value = inputStrength,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.strength = Integer.parseInt(it)
+                    inputStrength = context.selectedPokemon.value?.strength.toString()
+                } catch (e: Exception) {
+                    inputStrength = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_cool)) },
-                value = inputCool,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.cool = Integer.parseInt(it)
-                        inputCool = context.selectedPokemon.value?.cool.toString()
-                    } catch (e: Exception) {
-                        inputCool = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_dexterity)) },
+            value = inputDexterity,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.dexterity = Integer.parseInt(it)
+                    inputDexterity = context.selectedPokemon.value?.dexterity.toString()
+                } catch (e: Exception) {
+                    inputDexterity = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_beauty)) },
-                value = inputBeauty,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.beauty = Integer.parseInt(it)
-                        inputBeauty = context.selectedPokemon.value?.beauty.toString()
-                    } catch (e: Exception) {
-                        inputBeauty = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_vitality)) },
+            value = inputVitality,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.vitality = Integer.parseInt(it)
+                    inputVitality = context.selectedPokemon.value?.vitality.toString()
+                } catch (e: Exception) {
+                    inputVitality = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_cute)) },
-                value = inputCute,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.cute = Integer.parseInt(it)
-                        inputCute = context.selectedPokemon.value?.cute.toString()
-                    } catch (e: Exception) {
-                        inputCute = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_special)) },
+            value = inputSpecial,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.special = Integer.parseInt(it)
+                    inputSpecial = context.selectedPokemon.value?.special.toString()
+                } catch (e: Exception) {
+                    inputSpecial = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_smart)) },
-                value = inputSmart,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.smart = Integer.parseInt(it)
-                        inputSmart = context.selectedPokemon.value?.smart.toString()
-                    } catch (e: Exception) {
-                        inputSmart = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_insight)) },
+            value = inputInsight,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.insight = Integer.parseInt(it)
+                    inputInsight = context.selectedPokemon.value?.insight.toString()
+                } catch (e: Exception) {
+                    inputInsight = ""
                 }
-            )
-        }
+            }
+        )
+    }
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)
+    ) {
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_tough)) },
+            value = inputTough,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.tough = Integer.parseInt(it)
+                    inputTough = context.selectedPokemon.value?.tough.toString()
+                } catch (e: Exception) {
+                    inputTough = ""
+                }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_cool)) },
+            value = inputCool,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.cool = Integer.parseInt(it)
+                    inputCool = context.selectedPokemon.value?.cool.toString()
+                } catch (e: Exception) {
+                    inputCool = ""
+                }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_beauty)) },
+            value = inputBeauty,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.beauty = Integer.parseInt(it)
+                    inputBeauty = context.selectedPokemon.value?.beauty.toString()
+                } catch (e: Exception) {
+                    inputBeauty = ""
+                }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_cute)) },
+            value = inputCute,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.cute = Integer.parseInt(it)
+                    inputCute = context.selectedPokemon.value?.cute.toString()
+                } catch (e: Exception) {
+                    inputCute = ""
+                }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_smart)) },
+            value = inputSmart,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.smart = Integer.parseInt(it)
+                    inputSmart = context.selectedPokemon.value?.smart.toString()
+                } catch (e: Exception) {
+                    inputSmart = ""
+                }
+            }
+        )
     }
 }
 
@@ -258,65 +240,65 @@ private fun AttributeButtons(modifier: Modifier) {
         stringResource(R.string.skills_survival) + "(${pokemon.survival})",
         stringResource(R.string.skills_contest) + "(${pokemon.contest})"
     )
-    LazyVerticalGrid(
-        modifier = modifier.padding(horizontal = 20.dp),
-        columns = GridCells.Fixed(3),
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_happiness)) },
-                value = inputHappiness,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.happiness = Integer.parseInt(it)
-                        inputHappiness = context.selectedPokemon.value?.happiness.toString()
-                    } catch (e: Exception) {
-                        inputHappiness = ""
-                    }
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_happiness)) },
+            value = inputHappiness,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.happiness = Integer.parseInt(it)
+                    inputHappiness = context.selectedPokemon.value?.happiness.toString()
+                } catch (e: Exception) {
+                    inputHappiness = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_loyalty)) },
-                value = inputLoyalty,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.loyalty = Integer.parseInt(it)
-                        inputLoyalty = context.selectedPokemon.value?.loyalty.toString()
-                    } catch (e: Exception) {
-                        inputLoyalty = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_loyalty)) },
+            value = inputLoyalty,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.loyalty = Integer.parseInt(it)
+                    inputLoyalty = context.selectedPokemon.value?.loyalty.toString()
+                } catch (e: Exception) {
+                    inputLoyalty = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_disobedience)) },
-                value = inputDisobedience,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.selectedPokemon.value?.disobedience = Integer.parseInt(it)
-                        inputDisobedience = context.selectedPokemon.value?.disobedience.toString()
-                    } catch (e: Exception) {
-                        inputDisobedience = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_disobedience)) },
+            value = inputDisobedience,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.selectedPokemon.value?.disobedience = Integer.parseInt(it)
+                    inputDisobedience = context.selectedPokemon.value?.disobedience.toString()
+                } catch (e: Exception) {
+                    inputDisobedience = ""
                 }
-            )
-        }
-        items(3) { index ->
+            }
+        )
+    }
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        for(index in 0 until 3) {
             ActionButton(
-                modifier = Modifier,
+                modifier = Modifier.weight(1f),
                 onClick = {
                     buttonIndex = index
                     openDialog = true

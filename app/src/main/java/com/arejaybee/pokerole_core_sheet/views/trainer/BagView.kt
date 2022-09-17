@@ -48,24 +48,19 @@ import com.arejaybee.pokerole_core_sheet.views.context
 @Composable
 fun Bag(modifier: Modifier) {
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Row(modifier = Modifier.weight(0.8f)) {
-            Column(modifier = Modifier.weight(1f)) {
-                PotionPocket(Modifier.fillMaxSize())
-            }
+        Row(modifier = Modifier.weight(0.8f), horizontalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterHorizontally)) {
+            PotionPocket(Modifier.weight(0.7f))
             Column(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(0.3f),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
+                verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically)
             ) {
                 PocketActionButton(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(10.dp)
                         .fillMaxWidth(),
                     true
                 ) {
@@ -74,7 +69,6 @@ fun Bag(modifier: Modifier) {
                 PocketActionButton(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(10.dp)
                         .fillMaxWidth(),
                     false
                 ) {
@@ -82,14 +76,8 @@ fun Bag(modifier: Modifier) {
                 }
             }
         }
-        Row(
-            modifier = Modifier
-                .weight(0.2f)
-                .padding(horizontal = 30.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            BadgeCase()
-        }
+        Spacer(Modifier.padding(20.dp))
+        BadgeCase(Modifier.weight(0.2f).padding(horizontal = 30.dp))
     }
 }
 
@@ -175,9 +163,9 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
             context.trainer.value.bag.getPotionList(potionName)?.firstOrNull()?.uses ?: 0
         )
     }
-    Row(modifier = modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically)
+    Row(modifier = modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly)
     {
-        ActionButton(modifier = Modifier.weight(0.25f), onClick = {
+        ActionButton(modifier = Modifier.weight(0.5f), onClick = {
             val potion = context.trainer.value.bag.getPotionList(potionName).firstOrNull()
             potion?.let {
                 potion.uses--
@@ -195,7 +183,7 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
         }
         TextField(
             modifier = Modifier
-                .weight(0.2f)
+                .weight(0.5f)
                 .padding(horizontal = 5.dp),
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
             shape = CircleShape,
@@ -223,7 +211,7 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
                 else context.trainer.value.bag.getPotionList(potionName).firstOrNull()?.uses ?: potionType.maxUses
             })
         val maxUses = 7.coerceAtMost(potionType.maxUses)
-        Column(modifier = Modifier.weight(0.55f), horizontalAlignment = Alignment.Start) {
+        Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.Start) {
             Row(horizontalArrangement = Arrangement.Start) {
                 for (i in 0 until maxUses) {
                     MyCheckBox(
@@ -251,7 +239,7 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
 }
 
 @Composable
-fun BadgeCase() {
+fun BadgeCase(modifier: Modifier) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,

@@ -2,8 +2,8 @@ package com.arejaybee.pokerole_core_sheet.views.trainer
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
@@ -33,22 +33,14 @@ import com.arejaybee.pokerole_core_sheet.views.roundedMod
 
 @Composable
 fun TrainerSkill(modifier: Modifier) {
-    Column(modifier = modifier) {
-        SkillsSection(
-            modifier = Modifier.weight(
-                0.7f
-            )
-        )
-        AttributeButtons(
-            modifier = Modifier.weight(
-                0.3f
-            )
-        )
+    Column(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+        SkillsSection(modifier = modifier.weight(1f))
+        AttributeButtons(modifier = modifier.weight(1f))
     }
 }
 
 @Composable
-private fun SkillsSection(modifier: Modifier) {
+private fun SkillsSection(modifier: Modifier = Modifier) {
     var inputStrength by remember { mutableStateOf(context.trainer.value.strength.toString()) }
     var inputDexterity by remember { mutableStateOf(context.trainer.value.dexterity.toString()) }
     var inputVitality by remember { mutableStateOf(context.trainer.value.vitality.toString()) }
@@ -57,154 +49,134 @@ private fun SkillsSection(modifier: Modifier) {
     var inputCool by remember { mutableStateOf(context.trainer.value.cool.toString()) }
     var inputBeauty by remember { mutableStateOf(context.trainer.value.beauty.toString()) }
     var inputIntelligence by remember { mutableStateOf(context.trainer.value.intelligence.toString()) }
-    LazyVerticalGrid(
-        modifier = modifier,
-        columns = GridCells.Fixed(4),
-        horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
-        verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically)
-    ) {
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_strength)) },
-                value = inputStrength,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.trainer.value.strength = Integer.parseInt(it)
-                        inputStrength = context.trainer.value.strength.toString()
-                    } catch (e: Exception) {
-                        inputStrength = ""
-                    }
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)) {
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_strength)) },
+            value = inputStrength,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.trainer.value.strength = Integer.parseInt(it)
+                    inputStrength = context.trainer.value.strength.toString()
+                } catch (e: Exception) {
+                    inputStrength = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_dexterity)) },
-                value = inputDexterity,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.trainer.value.dexterity = Integer.parseInt(it)
-                        inputDexterity = context.trainer.value.dexterity.toString()
-                    } catch (e: Exception) {
-                        inputDexterity = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_dexterity)) },
+            value = inputDexterity,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.trainer.value.dexterity = Integer.parseInt(it)
+                    inputDexterity = context.trainer.value.dexterity.toString()
+                } catch (e: Exception) {
+                    inputDexterity = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_vitality)) },
-                value = inputVitality,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.trainer.value.vitality = Integer.parseInt(it)
-                        inputVitality = context.trainer.value.vitality.toString()
-                    } catch (e: Exception) {
-                        inputVitality = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_vitality)) },
+            value = inputVitality,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.trainer.value.vitality = Integer.parseInt(it)
+                    inputVitality = context.trainer.value.vitality.toString()
+                } catch (e: Exception) {
+                    inputVitality = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_insight)) },
-                value = inputInsight,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.trainer.value.insight = Integer.parseInt(it)
-                        inputInsight = context.trainer.value.insight.toString()
-                    } catch (e: Exception) {
-                        inputInsight = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_insight)) },
+            value = inputInsight,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.trainer.value.insight = Integer.parseInt(it)
+                    inputInsight = context.trainer.value.insight.toString()
+                } catch (e: Exception) {
+                    inputInsight = ""
                 }
-            )
-        }
-
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_tough)) },
-                value = inputTough,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.trainer.value.tough = Integer.parseInt(it)
-                        inputTough = context.trainer.value.tough.toString()
-                    } catch (e: Exception) {
-                        inputTough = ""
-                    }
+            }
+        )
+    }
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically,horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally)) {
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_tough)) },
+            value = inputTough,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.trainer.value.tough = Integer.parseInt(it)
+                    inputTough = context.trainer.value.tough.toString()
+                } catch (e: Exception) {
+                    inputTough = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_cool)) },
-                value = inputCool,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.trainer.value.cool = Integer.parseInt(it)
-                        inputCool = context.trainer.value.cool.toString()
-                    } catch (e: Exception) {
-                        inputCool = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_cool)) },
+            value = inputCool,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.trainer.value.cool = Integer.parseInt(it)
+                    inputCool = context.trainer.value.cool.toString()
+                } catch (e: Exception) {
+                    inputCool = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_beauty)) },
-                value = inputBeauty,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.trainer.value.beauty = Integer.parseInt(it)
-                        inputBeauty = context.trainer.value.beauty.toString()
-                    } catch (e: Exception) {
-                        inputBeauty = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_beauty)) },
+            value = inputBeauty,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.trainer.value.beauty = Integer.parseInt(it)
+                    inputBeauty = context.trainer.value.beauty.toString()
+                } catch (e: Exception) {
+                    inputBeauty = ""
                 }
-            )
-        }
-        item {
-            TextField(
-                modifier = roundedMod,
-                label = { Text(stringResource(id = string.skills_intelligence)) },
-                value = inputIntelligence,
-                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = {
-                    try {
-                        context.trainer.value.intelligence = Integer.parseInt(it)
-                        inputIntelligence = context.trainer.value.intelligence.toString()
-                    } catch (e: Exception) {
-                        inputIntelligence = ""
-                    }
+            }
+        )
+        TextField(
+            modifier = roundedMod.weight(1f),
+            label = { Text(stringResource(id = string.skills_intelligence)) },
+            value = inputIntelligence,
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                try {
+                    context.trainer.value.intelligence = Integer.parseInt(it)
+                    inputIntelligence = context.trainer.value.intelligence.toString()
+                } catch (e: Exception) {
+                    inputIntelligence = ""
                 }
-            )
-        }
+            }
+        )
     }
 }
 
 @Composable
-private fun AttributeButtons(modifier: Modifier) {
+private fun AttributeButtons(modifier: Modifier = Modifier) {
     val trainer = context.trainer.value
     var buttonIndex by remember { mutableStateOf(0) }
     var openDialog by remember { mutableStateOf(false) }
@@ -220,18 +192,18 @@ private fun AttributeButtons(modifier: Modifier) {
     }
     val buttons = listOf(
         stringResource(id = R.string.skills_fight) + "(${trainer.fight})",
-        stringResource(id = R.string.skills_survival)+ "(${trainer.survival})",
-        stringResource(id = R.string.skills_contest)+ "(${trainer.contest})",
-        stringResource(id = R.string.skills_knowledge)+ "(${trainer.knowledge})"
+        stringResource(id = R.string.skills_survival) + "(${trainer.survival})",
+        stringResource(id = R.string.skills_contest) + "(${trainer.contest})",
+        stringResource(id = R.string.skills_knowledge) + "(${trainer.knowledge})"
     )
-    LazyVerticalGrid(
+    Row(
         modifier = modifier,
-        columns = GridCells.Fixed(4),
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        items(4) { index ->
+        for(index in 0 until 4) {
             ActionButton(
-                modifier = Modifier,
+                modifier = Modifier.weight(1f),
                 onClick = {
                     buttonIndex = index
                     openDialog = true

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells.Fixed
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -59,7 +60,11 @@ fun ActionButton(
     content: @Composable (RowScope.() -> Unit)
 ) {
     Button(
-        modifier = modifier,
+        modifier = modifier
+            .defaultMinSize(
+                minWidth = TextFieldDefaults.MinWidth,
+                minHeight = TextFieldDefaults.MinHeight
+            ),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = color))
     ) {
@@ -97,17 +102,19 @@ fun LabeledButton(modifier: Modifier, label: String, onClick: () -> Unit, conten
                 minWidth = TextFieldDefaults.MinWidth,
                 minHeight = TextFieldDefaults.MinHeight
             )
+            .fillMaxSize()
             .clickable(onClick = onClick)
             .background(color = colorResource(id = R.color.button_primary))
             .then(modifier)
     ) {
         Text(
             text = label,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 1.dp),
+            modifier = Modifier.padding(start = 15.dp, top = 5.dp),
             fontSize = 12.sp
         )
         Box(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+                .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             content()
@@ -151,6 +158,7 @@ fun NatureDropdown(modifier: Modifier = Modifier, selection: String, onSelect: (
         },
         content = {
             Text(
+                modifier = Modifier.align(Alignment.Center),
                 text = boxName.value.replace("_"," "),
                 textAlign = TextAlign.Center
             )
@@ -177,6 +185,7 @@ fun TypeDropdown(modifier: Modifier = Modifier, selection: String, onSelect: (se
         label = stringResource(id = R.string.dropdown_label_type),
         content = {
             Text(
+                modifier = Modifier.align(Alignment.Center),
                 text = boxName.value.replace("_"," "),
                 textAlign = TextAlign.Center
             )

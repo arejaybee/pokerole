@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,9 +32,8 @@ var selectedPokemonPage by mutableStateOf(PokemonPage.POKEMON)
 fun PokemonContentView(newContext: MainActivity) {
     context = newContext
     Box(Modifier.background(colorResource(id = R.color.background_primary))) {
-        Row(modifier = Modifier.padding(10.dp)) {
+        Row(modifier = Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             PokemonNavButtons(modifier = Modifier.weight(0.15f).fillMaxWidth(), selectedPokemonPage)
-            Spacer(modifier = Modifier.padding(horizontal = 10.dp))
             val pageModifier = Modifier
                 .weight(0.85f)
                 .align(Alignment.CenterVertically)
@@ -43,7 +41,6 @@ fun PokemonContentView(newContext: MainActivity) {
                 PokemonPage.POKEMON -> PokemonCardView(pageModifier)
                 PokemonPage.MOVES -> PokemonBattleView(pageModifier)
                 PokemonPage.SKILLS -> PokemonSkill(pageModifier)
-                else -> Text("")
             }
         }
     }
@@ -55,7 +52,7 @@ fun PokemonNavButtons(modifier: Modifier = Modifier, page: PokemonPage) {
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight(),
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
             selectedPokemonPage = PokemonPage.POKEMON
