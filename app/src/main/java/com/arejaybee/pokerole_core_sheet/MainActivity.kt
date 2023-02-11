@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         context.selectedPokemon.value = pokemon
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         context.selectedPokemon.value?.let {
             selectedPage = Page.TRAINER_CARD

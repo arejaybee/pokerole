@@ -124,8 +124,6 @@ fun PocketActionButton(
                         )
                         Spacer(modifier = Modifier.padding(10.dp))
                     }
-                    list.forEachIndexed { index, item ->
-                    }
                 }
             }
         }
@@ -154,13 +152,13 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
     val potionType = Potion.getPotionByType(context.trainer.value.bag, potionName)
     var potionCount by remember {
         mutableStateOf(
-            context.trainer.value.bag.getPotionList(potionName)?.size?.toString() ?: "0"
+            context.trainer.value.bag.getPotionList(potionName).size.toString()
         )
     }
-    var ActionButtonPress by remember { mutableStateOf(true) }
+    var actionButtonPress by remember { mutableStateOf(true) }
     var potionUses by remember {
         mutableStateOf(
-            context.trainer.value.bag.getPotionList(potionName)?.firstOrNull()?.uses ?: 0
+            context.trainer.value.bag.getPotionList(potionName).firstOrNull()?.uses ?: 0
         )
     }
     Row(modifier = modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly)
@@ -177,7 +175,7 @@ fun PotionRow(modifier: Modifier, potionName: POTION_ENUM) {
             }
             potionUses = if (context.trainer.value.bag.getPotionList(potionName).isEmpty()) 0
             else context.trainer.value.bag.getPotionList(potionName).firstOrNull()?.uses ?: potionType.maxUses
-            ActionButtonPress = !ActionButtonPress
+            actionButtonPress = !actionButtonPress
         }) {
             Text(textAlign = TextAlign.Center, text = potionName.name.replace("_", " "))
         }
@@ -265,7 +263,7 @@ fun BadgeCase(modifier: Modifier) {
                         modifier= Modifier.weight(1f),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        context.trainer.value.badges.subList(0,4).forEachIndexed { index, badge ->
+                        context.trainer.value.badges.subList(0,4).forEachIndexed { index, _ ->
                             BadgeIcon(modifier = Modifier.weight(1f), index)
                         }
                     }
@@ -273,7 +271,7 @@ fun BadgeCase(modifier: Modifier) {
                         Modifier.weight(1f),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        context.trainer.value.badges.subList(4,8).forEachIndexed { index, badge ->
+                        context.trainer.value.badges.subList(4,8).forEachIndexed { index, _ ->
                             BadgeIcon(modifier = Modifier.weight(1f), index+4)
                         }
                     }

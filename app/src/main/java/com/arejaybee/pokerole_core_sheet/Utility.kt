@@ -2,7 +2,7 @@ package com.arejaybee.pokerole_core_sheet
 
 import androidx.compose.material.Checkbox
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.LocalMinimumTouchTargetEnforcement
+import androidx.compose.material.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalConfiguration
@@ -24,7 +24,7 @@ object Utility {
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun MyCheckBox(checked: Boolean, onCheckedChange: (Boolean) -> Unit, enabled: Boolean = true) {
-        CompositionLocalProvider(LocalMinimumTouchTargetEnforcement provides false) {
+        CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
             Checkbox(
                 checked = checked,
                 onCheckedChange = onCheckedChange,
