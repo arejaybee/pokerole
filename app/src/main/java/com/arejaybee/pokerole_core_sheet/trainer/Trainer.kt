@@ -29,6 +29,9 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener, Pok
             trainer.pokemon.forEach {
                 it.listener = trainer
             }
+            trainer.pcPokemon?.forEach {
+                it.listener = trainer
+            }
             return trainer
         }
     }
@@ -159,7 +162,7 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener, Pok
             saveData()
         }
 
-    var pokemon = listOf(
+    var pokemon = mutableListOf(
         Pokemon(this),
         Pokemon(this),
         Pokemon(this),
@@ -354,6 +357,55 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener, Pok
             saveData()
         }
 
+    var pcPokemon: MutableList<Pokemon>? = mutableListOf()
+
+    fun addPcBox() {
+        if(pcPokemon == null) {
+            pcPokemon = mutableListOf()
+        }
+        pcPokemon?.addAll(
+            mutableListOf(
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this),
+                Pokemon(this)
+            )
+        )
+    }
+
+    fun swapPokemonWithPC(pokemonIndex: Int, pcIndex: Int) {
+        val temp = Pokemon(pokemon[pokemonIndex])
+        val pc = Pokemon(pcPokemon!![pcIndex])
+        pokemon[pokemonIndex] = pc
+        pcPokemon!![pcIndex] = temp
+        saveData()
+    }
     override fun saveBagUpdates() {
         saveData()
     }

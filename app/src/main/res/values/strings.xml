@@ -5,6 +5,7 @@
     <string name="nav_trainer_card">Trainer Card</string>
     <string name="nav_trainer_skills">Skills</string>
     <string name="nav_trainer_bag">Bag</string>
+    <string name="nav_trainer_pc">PC</string>
 
     <!--Trainer Card-->
     <string name="trainer_card_name">Name</string>

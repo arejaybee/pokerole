@@ -26,12 +26,14 @@ import com.arejaybee.pokerole_core_sheet.MainActivity
 import com.arejaybee.pokerole_core_sheet.R
 import com.arejaybee.pokerole_core_sheet.R.drawable
 import com.arejaybee.pokerole_core_sheet.R.string
+import com.arejaybee.pokerole_core_sheet.pokemon.Pokemon
 import com.arejaybee.pokerole_core_sheet.views.PokemonPage.POKEMON
 import com.arejaybee.pokerole_core_sheet.views.trainer.Bag
+import com.arejaybee.pokerole_core_sheet.views.trainer.PC
 import com.arejaybee.pokerole_core_sheet.views.trainer.TrainerCard
 import com.arejaybee.pokerole_core_sheet.views.trainer.TrainerSkill
 
-enum class Page { TRAINER_CARD, SKILLS, BAG, POKEMON }
+enum class Page { TRAINER_CARD, SKILLS, BAG, PC }
 
 lateinit var context: MainActivity
 
@@ -41,17 +43,28 @@ val roundedMod = Modifier.clip(RoundedCornerShape(25, 25, 25, 25))
 @Composable
 fun MainContentView(newContext: MainActivity) {
     context = newContext
-    Box(Modifier.background(colorResource(id = R.color.background_primary)).fillMaxSize()) {
-        Column(Modifier.padding(start = 10.dp, top = 10.dp, end = 10.dp).fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(10.dp),) {
-            Row(Modifier.weight(0.8f),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+    Box(
+        Modifier
+            .background(colorResource(id = R.color.background_primary))
+            .fillMaxSize()) {
+        Column(
+            Modifier
+                .padding(start = 10.dp, top = 10.dp, end = 10.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            Row(
+                Modifier.weight(0.8f),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                pokemonClick = mainPokemonClick
                 NavButtons(modifier = Modifier.weight(0.15f), selectedPage)
                 val pageModifier = Modifier.weight(0.85f)
                 when (selectedPage) {
                     Page.TRAINER_CARD -> TrainerCard(modifier = pageModifier)
                     Page.SKILLS -> TrainerSkill(modifier = pageModifier)
                     Page.BAG -> Bag(modifier = pageModifier)
+                    Page.PC -> PC(modifier = pageModifier)
                     else -> Text("")
                 }
             }
@@ -69,20 +82,54 @@ fun NavButtons(modifier: Modifier = Modifier, page: Page) {
             .fillMaxHeight(),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = { selectedPage = Page.TRAINER_CARD }, color = if (page == Page.TRAINER_CARD) R.color.my_button_secondary else R.color.button_primary) {
+        ActionButton(
+            modifier = roundedMod.fillMaxWidth(),
+            onClick = {
+                selectedPage = Page.TRAINER_CARD
+            },
+            color = if (page == Page.TRAINER_CARD) R.color.my_button_secondary else R.color.button_primary
+        ) {
             Text(stringResource(id = string.nav_trainer_card), textAlign = TextAlign.Center)
         }
-        ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = { selectedPage = Page.SKILLS }, color = if (page == Page.SKILLS) R.color.my_button_secondary else R.color.button_primary) { Text(stringResource(id = string.nav_trainer_skills), textAlign = TextAlign.Center) }
-        ActionButton(modifier = roundedMod.fillMaxWidth(), onClick = {
+        ActionButton(
+            modifier = roundedMod.fillMaxWidth(),
+            onClick = {
+                selectedPage = Page.SKILLS
+            },
+            color = if (page == Page.SKILLS) R.color.my_button_secondary else R.color.button_primary
+        ) {
+            Text(stringResource(id = string.nav_trainer_skills), textAlign = TextAlign.Center)
+        }
+        ActionButton(
+            modifier = roundedMod.fillMaxWidth(),
+            onClick = {
                 selectedPage = Page.BAG
-            }, color = if (page == Page.BAG) R.color.my_button_secondary else R.color.button_primary) { Text(stringResource(id = string.nav_trainer_bag), textAlign = TextAlign.Center) }
+            },
+            color = if (page == Page.BAG) R.color.my_button_secondary else R.color.button_primary
+        ) {
+            Text(stringResource(id = string.nav_trainer_bag), textAlign = TextAlign.Center)
+        }
+        ActionButton(
+            modifier = roundedMod.fillMaxWidth(),
+            onClick = {
+                if(context.trainer.value.pcPokemon.isNullOrEmpty() == true) {
+                    context.trainer.value.addPcBox()
+                }
+                selectedPage = Page.PC
+            },
+            color = if (page == Page.PC) R.color.my_button_secondary else R.color.button_primary
+        ) {
+            Text(stringResource(id = string.nav_trainer_pc), textAlign = TextAlign.Center)
+        }
     }
 }
 
 @Composable
 fun PokemonGrid(modifier: Modifier) {
-    Row(modifier.fillMaxSize()
-        .padding(start = 20.dp, end = 20.dp, bottom = 10.dp),
+    Row(
+        modifier
+            .fillMaxSize()
+            .padding(start = 20.dp, end = 20.dp, bottom = 10.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         context.trainer.value.pokemon.forEach { pokemon ->
@@ -92,10 +139,19 @@ fun PokemonGrid(modifier: Modifier) {
                 modifier = Modifier
                     .weight(1f)
                     .clickable {
-                        selectedPokemonPage = POKEMON
-                        context.goToPokemonView(pokemon)
+                        pokemonClick(pokemon)
                     }
             )
         }
     }
 }
+
+val mainPokemonClick = { pokemon: Pokemon ->
+    selectedPokemonPage = POKEMON
+    context.goToPokemonView(pokemon)
+}
+
+var pokemonClick = { pokemon: Pokemon ->
+
+}
+

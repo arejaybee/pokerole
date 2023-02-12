@@ -9,7 +9,58 @@ import com.arejaybee.pokerole_core_sheet.views.SkillDialogType.PokemonSurvival
 
 class Pokemon(@Transient var listener: PokemonChangeListener) {
 
-
+    constructor(pokemon:Pokemon) : this(pokemon.listener) {
+        profilePicture = pokemon.profilePicture
+        name = pokemon.name
+        type1 = pokemon.type1
+        type2 = pokemon.type2
+        nature = pokemon.nature
+        ability = pokemon.ability
+        size = pokemon.size
+        weight = pokemon.weight
+        level = pokemon.level
+        exp = pokemon.exp
+        happiness = pokemon.happiness
+        loyalty = pokemon.loyalty
+        disobedience = pokemon.disobedience
+        hp = pokemon.hp
+        will = pokemon.will
+        item = pokemon.item
+        status = pokemon.status
+        initiative = pokemon.initiative
+        accuracy = pokemon.accuracy
+        damage = pokemon.damage
+        evasion = pokemon.evasion
+        defense = pokemon.defense
+        specialDefense = pokemon.specialDefense
+        moves = mutableListOf()
+        moves.addAll(pokemon.moves)
+        strength = pokemon.strength
+        dexterity = pokemon.dexterity
+        vitality = pokemon.vitality
+        insight = pokemon.insight
+        special = pokemon.special
+        tough = pokemon.tough
+        cool = pokemon.cool
+        beauty = pokemon.beauty
+        cute = pokemon.cute
+        smart = pokemon.smart
+        fight = pokemon.fight
+        brawl = pokemon.brawl
+        channel = pokemon.channel
+        evasion = pokemon.evasion
+        clash = pokemon.clash
+        survival = pokemon.survival
+        alert = pokemon.alert
+        atheletic = pokemon.atheletic
+        natural = pokemon.natural
+        stealth = pokemon.stealth
+        contest = pokemon.contest
+        allure = pokemon.allure
+        etiquette = pokemon.etiquette
+        intimidate = pokemon.intimidate
+        perform = pokemon.perform
+    }
     private fun saveData() {
         listener.savePokemon()
     }

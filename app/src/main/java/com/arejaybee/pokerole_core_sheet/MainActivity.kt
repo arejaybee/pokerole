@@ -43,6 +43,10 @@ class MainActivity : AppCompatActivity() {
         context.selectedPokemon.value = pokemon
     }
 
+    fun redraw() {
+        loadTrainer()
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         context.selectedPokemon.value?.let {

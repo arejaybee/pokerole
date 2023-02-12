@@ -276,11 +276,6 @@ fun BadgeCase(modifier: Modifier) {
                         }
                     }
                 }
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(4),
-                ) {
-
-                }
             }
         }
     }
