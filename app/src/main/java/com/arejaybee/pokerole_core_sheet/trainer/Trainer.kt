@@ -18,6 +18,7 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener, Pok
 
     companion object {
         const val SHARED_PREFS = "shared_pref"
+        const val POKEMON_PER_BOX = 20
         fun loadData(context: Context): Trainer {
             val sharedPreferences: SharedPreferences =
                 context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
@@ -360,43 +361,13 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener, Pok
     var pcPokemon: MutableList<Pokemon>? = mutableListOf()
 
     fun addPcBox() {
-        if(pcPokemon == null) {
+        if (pcPokemon == null) {
             pcPokemon = mutableListOf()
         }
-        pcPokemon?.addAll(
-            mutableListOf(
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this),
-                Pokemon(this)
-            )
-        )
+        val temp = mutableListOf<Pokemon>()
+        for(i in  0 until POKEMON_PER_BOX) {
+            temp.add(Pokemon(this))
+        }
     }
 
     fun swapPokemonWithPC(pokemonIndex: Int, pcIndex: Int) {
@@ -406,6 +377,29 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener, Pok
         pcPokemon!![pcIndex] = temp
         saveData()
     }
+
+    fun swapPcPokemonWithPC(pc1:Int, pc2:Int) {
+        val temp = Pokemon(pcPokemon!![pc1])
+        val pc = Pokemon(pcPokemon!![pc2])
+        pcPokemon!![pc1] = pc
+        pcPokemon!![pc2] = temp
+        saveData()
+    }
+
+    fun getMaxBoxNum() : Int{
+        val ownedPokmeon = pcPokemon?.filter {
+            it.name != ""
+        }?.size
+        val boxesNeeded = ((ownedPokmeon?:0) / POKEMON_PER_BOX) + 5
+        if(pcPokemon == null) {
+            addPcBox()
+        }
+        while(pcPokemon!!.size/POKEMON_PER_BOX < boxesNeeded) {
+            addPcBox()
+        }
+        return boxesNeeded
+    }
+
     override fun saveBagUpdates() {
         saveData()
     }
