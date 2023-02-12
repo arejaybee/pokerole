@@ -20,10 +20,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arejaybee.pokerole_core_sheet.R.color
 import com.arejaybee.pokerole_core_sheet.R.drawable
+import com.arejaybee.pokerole_core_sheet.R.string
 import com.arejaybee.pokerole_core_sheet.pokemon.Pokemon
 import com.arejaybee.pokerole_core_sheet.views.GlideImage
 import com.arejaybee.pokerole_core_sheet.views.context
@@ -32,13 +34,10 @@ import com.arejaybee.pokerole_core_sheet.views.pokemonClick
 import com.arejaybee.pokerole_core_sheet.views.trainer.PC_STATE.PICKING
 import com.arejaybee.pokerole_core_sheet.views.trainer.PC_STATE.SWAPPING
 
-private const val POKEMON_PER_ROW = 5
 private const val ROW_COUNT = 4
-
-var pcPokemon by mutableStateOf(listOf<Pokemon>())
 var selectedBox by mutableStateOf(-1)
-var boxNum by mutableStateOf(0)
-
+enum class PC_STATE { PICKING, SWAPPING }
+private var CURRENT_STATE by mutableStateOf(PICKING)
 @Composable
 fun PC(modifier: Modifier) {
     Column(
@@ -47,7 +46,11 @@ fun PC(modifier: Modifier) {
     ) {
         HorizontalScrollScreen(Modifier.weight(0.9f))
         Text(
-            text = "Select a PC slot, then a pokemon to swap",
+            text = stringResource(
+                id =
+                if (CURRENT_STATE == PICKING) string.pc_instructions_picking
+                else string.pc_instructions_swapping
+            ),
             modifier = Modifier
                 .weight(0.1f)
                 .fillMaxSize(),
@@ -71,7 +74,7 @@ fun HorizontalScrollScreen(modifier: Modifier) {
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 itemsIndexed(context.trainer.value.pcPokemon!!) { index, item ->
-                    if(selectedBox == index) {
+                    if (selectedBox == index) {
                         GlideImage(
                             item.profilePicture,
                             drawable.ic_pcbox,
@@ -125,7 +128,3 @@ fun onClickPcSlot(index: Int) {
     }
     context.redraw()
 }
-
-enum class PC_STATE { PICKING, SWAPPING }
-
-private var CURRENT_STATE = PICKING

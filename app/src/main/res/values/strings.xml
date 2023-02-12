@@ -54,6 +54,10 @@
     <string name="pokemon_battle_status">Status</string>
     <string name="pokemon_battle_move">Move</string>
 
+    <!-- PC -->
+    <string name="pc_instructions_picking">Select a PC slot</string>
+    <string name="pc_instructions_swapping">Select a slot to swap with</string>
+
     <!--Skills-->
     <string name="skills_other_skill">Other Skills</string>
     <string name="skills_strength">Strength</string>
