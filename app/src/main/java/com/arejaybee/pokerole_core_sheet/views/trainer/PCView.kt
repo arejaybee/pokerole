@@ -47,7 +47,7 @@ fun PC(modifier: Modifier) {
     ) {
         HorizontalScrollScreen(Modifier.weight(0.9f))
         Text(
-            text = "Select a slot, then select a party pokemon to swap",
+            text = "Select a PC slot, then a pokemon to swap",
             modifier = Modifier
                 .weight(0.1f)
                 .fillMaxSize(),
@@ -108,6 +108,7 @@ fun onClickPcSlot(index: Int) {
                 )
                 CURRENT_STATE = PICKING
                 selectedBox = -1
+                pokemonClick = mainPokemonClick
                 context.redraw()
             }
             CURRENT_STATE = SWAPPING
