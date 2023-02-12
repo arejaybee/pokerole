@@ -224,16 +224,17 @@ fun StatusDropdown(modifier: Modifier = Modifier,  fill: Boolean = true, selecti
         label = stringResource(id = R.string.pokemon_battle_status),
         content = {
             Text(
+                modifier = Modifier.align(Alignment.Center),
                 text = boxName.value.replace("_"," "),
                 textAlign = TextAlign.Center
             )
-            /*Dropdown(
+           Dropdown(
                 modifier = Modifier.align(Alignment.Center),
                 selection = boxName,
                 list = PokemonStatus.values(),
                 expanded = expanded,
                 onSelect = onSelect
-            )*/
+            )
         }
     )
 }
