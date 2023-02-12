@@ -34,7 +34,7 @@ import com.arejaybee.pokerole_core_sheet.views.pokemonClick
 import com.arejaybee.pokerole_core_sheet.views.trainer.PC_STATE.PICKING
 import com.arejaybee.pokerole_core_sheet.views.trainer.PC_STATE.SWAPPING
 
-private const val ROW_COUNT = 4
+private const val ROW_COUNT = 3
 var selectedBox by mutableStateOf(-1)
 enum class PC_STATE { PICKING, SWAPPING }
 private var CURRENT_STATE by mutableStateOf(PICKING)

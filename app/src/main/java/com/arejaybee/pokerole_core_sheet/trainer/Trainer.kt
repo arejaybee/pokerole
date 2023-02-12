@@ -18,7 +18,7 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener, Pok
 
     companion object {
         const val SHARED_PREFS = "shared_pref"
-        const val POKEMON_PER_BOX = 20
+        const val POKEMON_PER_BOX = 30
         fun loadData(context: Context): Trainer {
             val sharedPreferences: SharedPreferences =
                 context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
@@ -358,43 +358,44 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener, Pok
             saveData()
         }
 
-    var pcPokemon: MutableList<Pokemon>? = mutableListOf()
+    var pcPokemon: MutableList<Pokemon> = mutableListOf()
+    get() {
+        if(field == null) {
+            field = mutableListOf()
+        }
+        return field
+    }
 
     fun addPcBox() {
-        if (pcPokemon == null) {
-            pcPokemon = mutableListOf()
-        }
         val temp = mutableListOf<Pokemon>()
         for(i in  0 until POKEMON_PER_BOX) {
             temp.add(Pokemon(this))
         }
+        pcPokemon.addAll(temp)
     }
 
     fun swapPokemonWithPC(pokemonIndex: Int, pcIndex: Int) {
         val temp = Pokemon(pokemon[pokemonIndex])
-        val pc = Pokemon(pcPokemon!![pcIndex])
+        val pc = Pokemon(pcPokemon[pcIndex])
         pokemon[pokemonIndex] = pc
-        pcPokemon!![pcIndex] = temp
+        pcPokemon[pcIndex] = temp
         saveData()
     }
 
     fun swapPcPokemonWithPC(pc1:Int, pc2:Int) {
-        val temp = Pokemon(pcPokemon!![pc1])
-        val pc = Pokemon(pcPokemon!![pc2])
-        pcPokemon!![pc1] = pc
-        pcPokemon!![pc2] = temp
+        val temp = Pokemon(pcPokemon[pc1])
+        val pc = Pokemon(pcPokemon[pc2])
+        pcPokemon[pc1] = pc
+        pcPokemon[pc2] = temp
         saveData()
     }
 
     fun getMaxBoxNum() : Int {
-        val ownedPokmeon = pcPokemon?.filter {
+        val ownedPokmeon = pcPokemon.filter {
             it.name != ""
-        }?.size
+        }.size
         val boxesNeeded = ((ownedPokmeon?:0) / POKEMON_PER_BOX) + 5
-        if(pcPokemon == null) {
-            addPcBox()
-        }
-        while(pcPokemon!!.size/POKEMON_PER_BOX < boxesNeeded) {
+        while(pcPokemon.size/POKEMON_PER_BOX < boxesNeeded) {
             addPcBox()
         }
         return boxesNeeded
