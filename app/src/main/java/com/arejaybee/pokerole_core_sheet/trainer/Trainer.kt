@@ -386,7 +386,7 @@ class Trainer(@Transient private  var context: Context) : BagUpdateListener, Pok
         saveData()
     }
 
-    fun getMaxBoxNum() : Int{
+    fun getMaxBoxNum() : Int {
         val ownedPokmeon = pcPokemon?.filter {
             it.name != ""
         }?.size

@@ -113,7 +113,8 @@ fun NavButtons(modifier: Modifier = Modifier, page: Page) {
             modifier = roundedMod.fillMaxWidth(),
             onClick = {
                 if(context.trainer.value.pcPokemon.isNullOrEmpty() == true) {
-                    context.trainer.value.addPcBox()
+                    context.trainer.value.getMaxBoxNum()
+                    context.trainer.value.saveData()
                 }
                 selectedPage = Page.PC
             },
